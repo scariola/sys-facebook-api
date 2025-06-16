@@ -28,16 +28,7 @@
 </flow>
 	<flow
 		name="post:\facebook-access:application\json:sys-facebook-api-config">
-		<ee:transform doc:name="Transform Message">
-			<ee:message>
-				<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  "x-event-code": 1005,
-  "x-event-msg": "Provisioning successful"
-} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="bd5ec399-5500-413c-a050-659a715eadb8" name="impl-facebookFlow"/>
+
 	</flow>
 </mule>

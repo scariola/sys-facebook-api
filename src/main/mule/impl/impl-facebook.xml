@@ -8,6 +8,44 @@
 	xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="impl-facebookFlow" doc:id="8908ebf3-2340-47d2-9207-b969e60b7e02" >
+		<ee:transform doc:name="Request" doc:id="37ebe7af-a6c3-4916-b527-c507f9238631" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "msisdn": payload.msisdn,
+  "timestamp": payload.timestamp,
+  "provision": {
+    "fb_product_id": payload.provision.'fb-product-id',
+    "expiration": payload.provision.expiration
+  }
+}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="requestParams" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"data_type": payload.'data-type',
+	"timestamp": payload.timestamp,
+	"carrier_id": payload.'carrier-id',
+	"hmac": payload.hmac
+	
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="3842908e-20d5-4d99-ac05-b85023d3bd8c" name="https-facebookSub_Flow"/>
+		<ee:transform doc:name="Transform Message" doc:id="1bb26ff5-45e5-477a-bd6d-0bc120e931ee" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
 
 
 </mule>
