@@ -9,6 +9,27 @@
 http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="impl-facebookFlow" doc:id="8908ebf3-2340-47d2-9207-b969e60b7e02" >
+		<ee:transform doc:name="Transform Message" doc:id="14715d44-3703-4bda-84f8-6fbd3f4768ce" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="hmac" ><![CDATA[%dw 2.0
+output application/json
+import dw::Crypto
+var currentTimestamp = now()
+var floatTimestamp = (currentTimestamp as Number {class: "float"})
+var roundedTimestamp = round(floatTimestamp)
+var hmac_timestamp = roundedTimestamp
+var carrier_id = "1119"
+var data = carrier_id ++ hmac_timestamp
+var secret_key = "8rMEaDdKTl75Vox6YU2YfmTTpASO61KuAnqTvh14yHX4UpxND0NcbyYIADzvMt3Ln8GJANl6dQb8r8ldALlEzSArvHZ26mRuzDTc"
+---
+{ "HMACWith" : Crypto::HMACWith(secret_key as Binary, data as Binary, "HmacSHA256"),
+   "timestamp": hmac_timestamp
+
+ }]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
 		<ee:transform doc:name="Request" doc:id="37ebe7af-a6c3-4916-b527-c507f9238631" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
@@ -16,7 +37,7 @@ output application/json
 ---
 {
   "msisdn": payload.msisdn,
-  "timestamp": payload.timestamp,
+  "timestamp": vars.timestamp,
   "provision": {
     "fb_product_id": payload.provision.'fb-product-id',
     "expiration": payload.provision.expiration
@@ -29,9 +50,9 @@ output application/json
 ---
 {
 	"data_type": payload.'data-type',
-	"timestamp": payload.timestamp,
-	"carrier_id": payload.'carrier-id',
-	"hmac": payload.hmac
+	"timestamp": vars.hmac.timestamp,
+	"carrier_id":'1119',
+	"hmac": vars.hmac.HMACWith
 	
 }]]></ee:set-variable>
 			</ee:variables>
