@@ -26,16 +26,16 @@ http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/jav
 output application/json
 import dw::Crypto
 var hmac_timestamp = vars.hmacTimeStamp 
+var hmac_timestamp2 = vars.hmacTimeStamp as String
 var carrier_id = "1119"
-var data = carrier_id ++ hmac_timestamp
+var data = hmac_timestamp2 ++ carrier_id
 var secret_key = "8rMEaDdKTl75Vox6YU2YfmTTpASO61KuAnqTvh14yHX4UpxND0NcbyYIADzvMt3Ln8GJANl6dQb8r8ldALlEzSArvHZ26mRuzDTc"
 ---
 { "HMACWith" : Crypto::HMACWith(secret_key as Binary, data as Binary, "HmacSHA256"),
    "timestamp": hmac_timestamp
 
  }
- 
- 
+
 
  ]]></ee:set-variable>
 			</ee:variables>
@@ -46,11 +46,11 @@ var secret_key = "8rMEaDdKTl75Vox6YU2YfmTTpASO61KuAnqTvh14yHX4UpxND0NcbyYIADzvMt
 output application/json
 ---
 {
-  "msisdn": "9276749952",
+  "msisdn": "639171234567",
   "timestamp": vars.hmac.timestamp,
   "provision": {
-    "fb_product_id": "2536",
-    "expiration": "1718784000"
+    "fb_product_id": "free",
+    "expiration": 1
   }
 }]]></ee:set-payload>
 			</ee:message>
@@ -63,13 +63,11 @@ output application/json
 {
 	"Content-Type" : "application/json"
 }]]]></http:headers>
-			<http:query-params><![CDATA[#[output application/java
----
-{
-	  "data_type": "provision",
-      "timestamp": vars.hmac.timestamp,
-      "carrier_id": "1119",
-      "hmac": vars.hmac.HMACWith
+			<http:query-params><![CDATA[#[{
+    "data_type": "provision",
+    "timestamp": vars.hmac.timestamp,
+    "carrier_id": "1119",
+    "hmac": vars.hmac.HMACWith
 }]]]></http:query-params>
 		</http:request>
 		<logger level="INFO" doc:name="Logger" doc:id="ecc2be60-a5d9-4f15-825a-f867c5b6bcf0" message="#[payload]"/>
