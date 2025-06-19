@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:mongodb="http://www.mulesoft.org/schema/mule/mongodb"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/mongodb http://www.mulesoft.org/schema/mule/mongodb/current/mule-mongodb.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="http-facebook-post-carrier-phone-status-flow" doc:id="ea91ea3f-3ee9-4573-816a-5a325868d98e" >
+		<logger level="INFO" doc:name="Logger" doc:id="399cb50d-e9d3-4bd9-831a-17db470e3724" />
+		<http:request method="POST" doc:name="Request" doc:id="e0bb2b4c-136e-4554-87e1-f53a76ab2ce3" config-ref="HTTP_Request_Config_Facebook_Graph" path="${facebook.path}" sendCorrelationId="NEVER">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"Content-Type" : "application/json"
+}]]]></http:headers>
+			<http:query-params><![CDATA[#[vars.requestParams]]]></http:query-params>
+		</http:request>
+		<choice doc:name="Choice" doc:id="7e2945bd-d31e-47ce-8578-2ccd1459e5d2" >
+			<when expression="#[attributes.statusCode == '201']">
+				<ee:transform doc:name="Transform Message" doc:id="57c44ccf-e6d5-49e7-8351-3a6d259cf28d" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+  "x-event-code": 1005,
+  "x-event-msg": "Provisioning successful"
+}
+]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+		</choice>
+		<logger level="INFO" doc:name="Logger1" doc:id="ef1b2c43-2601-40e9-ae40-b172b17d623e" />
+		<error-handler ref="sys-facebook-api_Shared_Error_Handler">
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="5094b0f6-a765-463d-9a55-6d48fcb22384" type="HTTP:CONNECTIVITY">
+				<ee:transform doc:name="Transform Message" doc:id="30c18554-afac-447d-a08f-248efdab2c04" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "x-event-code": 9010,
+  "x-event-msg": "Facebook API unreachable",
+  "result":{
+  	"errorType": error.errorType.namespace ++ ":" ++ error.errorType.identifier,
+    "errorDescription": error.detailedDescription,
+    "correlationId": correlationId
+  }
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<set-variable value="500" doc:name="Set Variable" doc:id="06e1f70c-717b-4ead-aaa1-a8122f022b18" variableName="httpStatus"/>
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="79db93f8-b7d5-4f8c-a714-21e95a6f4111" type="HTTP:BAD_REQUEST" >
+				<ee:transform doc:name="Transform Message" doc:id="1e52cf4b-4687-46af-bb35-58f59ada8745" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "x-event-code": 9010,
+  "x-event-msg": "Bad Request - Invalid Parameter or Payload",
+  "result":{
+  	"errorType": error.errorType.namespace ++ ":" ++ error.errorType.identifier,
+    "errorDescription": error.detailedDescription,
+    "correlationId": correlationId
+  }
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<set-variable value="400" doc:name="Set Variable" doc:id="026fccbf-eb3b-44a5-b988-692efa8080e6" variableName="httpStatus"/>
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+</mule>

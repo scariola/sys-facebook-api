@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:java="http://www.mulesoft.org/schema/mule/java"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/java/current/mule-java.xsd">
+	<sub-flow name="impl-facebook-provisioning-process-subflow" doc:id="1fdbc7bd-7ea6-43b4-8d4b-b6ad2ccb4aac" >
+		<logger level="INFO" doc:name="Logger" doc:id="e4c0b6d0-080f-4f86-a704-fe912ca9ab34" />
+		<ee:transform doc:name="Transform Message" doc:id="d82d2502-2494-4c76-ab40-dcd543d0df36">
+			<ee:message>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable variableName="originalPayload"><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<java:invoke-static doc:name="Invoke static" doc:id="4d7a5934-875b-40d3-a73e-6e3fe5944d66" class="com.facebookTimestamp.utils.TimestampUtils" method="generateHmacTimestamp()" target="hmacTimeStamp" />
+		<ee:transform doc:name="Transform Message" doc:id="14715d44-3703-4bda-84f8-6fbd3f4768ce">
+			<ee:message>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable variableName="hmac"><![CDATA[%dw 2.0
+output application/json
+import dw::Crypto
+var hmac_timestamp = vars.hmacTimeStamp 
+var carrier_id = vars.originalPayload.'carrier-id'
+var concatData = hmac_timestamp ++ carrier_id
+var secret_key = p('facebook.secret.key')
+---
+{
+    "hmac" : Crypto::HMACWith(secret_key as Binary, concatData as Binary, "HmacSHA256"),
+    "timestamp": hmac_timestamp
+}
+
+ ]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="Request" doc:id="37ebe7af-a6c3-4916-b527-c507f9238631">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+var dt = vars.originalPayload
+---
+{
+  "msisdn": dt.msisdn,
+  "timestamp": vars.hmac.timestamp,
+  "provision": {
+    "fb_product_id": dt.provision.'fb-product-id',
+    "expiration": dt.provision.expiration
+  }
+}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable variableName="requestParams"><![CDATA[%dw 2.0
+output application/java
+---
+{
+    "data_type": "provision",
+    "timestamp": vars.hmac.timestamp,
+    "carrier_id": vars.originalPayload.'carrier-id',
+    "hmac": vars.hmac.hmac
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="f1255e39-e0c6-4cde-81dc-1660ee567ca5" name="http-facebook-post-carrier-phone-status-flow" />
+		<logger level="INFO" doc:name="Logger" doc:id="d030a6c4-e526-490c-91aa-478998ad2726" />
+	</sub-flow>
+
+
+</mule>

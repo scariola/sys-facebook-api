@@ -31,7 +31,7 @@ http://www.mulesoft.org/schema/mule/mongodb http://www.mulesoft.org/schema/mule/
 			port="${app.port}" />
 	</http:listener-config>
 	<apikit:config name="sys-facebook-api-config"
-		api="resource::19504067-e1e3-45dd-943a-e163098ddbed:sys-facebook-api:1.0.5:raml:zip:sys-facebook-api.raml"
+		api="resource::19504067-e1e3-45dd-943a-e163098ddbed:sys-facebook-api:1.0.7:raml:zip:sys-facebook-api.raml"
 		outboundHeadersMapName="outboundHeaders"
 		httpStatusVarName="httpStatus" />
 	<http:request-config name="HTTP_Request_Config_Facebook_Graph" doc:name="HTTP Request configuration" doc:id="fcb6d1e1-3e23-4c7c-bfab-fd88804afc77" >
