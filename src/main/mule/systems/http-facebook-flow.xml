@@ -50,7 +50,7 @@ output application/json
 			<otherwise>
 				<raise-error doc:name="Raise error - FACEBOOK:ERROR"
 					doc:id="2b950b00-0c25-48df-9b4b-f345c22be8da" type="FACEBOOK:ERROR"
-					description="There were client or server errors with individual provision requests" />
+					description="There were client or server errors with individual provision requests." />
 			</otherwise>
 		</choice>
 		<logger level="INFO" doc:name="END- POST/carrier-phone-status"
