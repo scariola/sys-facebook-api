@@ -7,7 +7,8 @@
         http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
         http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
-	<error-handler name="sys-facebook-api_Shared_Error_Handler">
+	<error-handler
+		name="sys-facebook-api_APIKIT_Error_Handler">
 
 		<on-error-propagate type="APIKIT:BAD_REQUEST">
 			<ee:transform doc:name="Set Payload - Bad Request">
@@ -76,18 +77,94 @@
 				doc:name="Set httpStatus  = 501" />
 		</on-error-propagate>
 
-
-		<on-error-propagate type="ANY" logException="true"
-			enableNotifications="true">
-			<ee:transform doc:name="Set Payload - Any Occured">
+	</error-handler>
+	<error-handler name="sys-facebook-api_Shared_Error_Handler">
+		<on-error-propagate enableNotifications="true"
+			logException="true" doc:name="On Error Propagate"
+			doc:id="b58c1503-01d6-49e4-acf1-24884147bc83" type="FACEBOOK:ERROR">
+			<ee:transform
+				doc:name="Set Payload - Provision Unsuccessful"
+				doc:id="46ea9d43-8bcf-40c5-b459-6866f7abe0ec">
 				<ee:message>
-					<ee:set-payload
-						resource="dw/unexpected-system-error.dwl" />
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "x-event-code": 9010,
+  "x-event-msg": "Provision Unsuccessful.",
+  "result":{
+  	"errorType": error.errorType.namespace ++ ":" ++ error.errorType.identifier,
+    "errorDescription": error.detailedDescription,
+    "correlationId": correlationId
+  }
+}]]></ee:set-payload>
 				</ee:message>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="500"
-				doc:name="Set httpStatus  = 500" />
+			<set-variable
+				value="#[error.errorMessage.attributes.statusCode default 500]"
+				doc:name="Set httpStatus = statusCode"
+				doc:id="82018c03-defc-4bb9-8f66-eea6b794582c"
+				variableName="httpStatus" />
 		</on-error-propagate>
-
+		<on-error-propagate enableNotifications="true"
+			logException="true" doc:name="On Error Propagate"
+			doc:id="ee278d44-b509-476e-93b1-c8ea37103118" type="HTTP:BAD_REQUEST">
+			<ee:transform doc:name="Set Payload - HTTP  Bad Request"
+				doc:id="d532fdee-cabd-48e1-a840-0e6ccbfbbb82">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "x-event-code": 9010,
+  "x-event-msg": "Bad Request - Invalid Parameter or Request",
+  "result":{
+  	"errorType": error.errorType.namespace ++ ":" ++ error.errorType.identifier,
+    "errorDescription": error.detailedDescription,
+    "correlationId": correlationId
+  }
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="400"
+				doc:name="Set httpStatus = 400"
+				doc:id="93d2f0b2-0a83-4ac5-ba8b-ad2bb4c479fd"
+				variableName="httpStatus" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true"
+			logException="true" doc:name="On Error Propagate"
+			doc:id="7eae0259-5a20-4bc1-af56-1e80db0d46fb"
+			type="HTTP:CONNECTIVITY">
+			<ee:transform
+				doc:name="Set Payload - HTTP  Connectivity"
+				doc:id="34e7c17e-1cb8-4e34-bc45-2216302044b6">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "x-event-code": 9010,
+  "x-event-msg": "Facebook API unreachable",
+  "result":{
+  	"errorType": error.errorType.namespace ++ ":" ++ error.errorType.identifier,
+    "errorDescription": error.detailedDescription,
+    "correlationId": correlationId
+  }
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="500"
+				doc:name="Set httpStatus = 500"
+				doc:id="580fd996-58ce-4855-9a9a-7481d73ca8c0"
+				variableName="httpStatus" />
+		</on-error-propagate>
+		<on-error-propagate type="ANY" logException="true" enableNotifications="true">
+			<ee:transform doc:name="Set Payload - Any Occured">
+				<ee:message>
+					<ee:set-payload resource="dw/unexpected-system-error.dwl" />
+				</ee:message>
+			</ee:transform>
+			<set-variable variableName="httpStatus" value="500" doc:name="Set httpStatus  = 500" />
+		</on-error-propagate>
 	</error-handler>
 </mule>

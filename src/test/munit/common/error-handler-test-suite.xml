@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="error-hadler-test-suite.xml" />
+	<munit:test name="sys-facebook-api-main-apikit-bad-request-test" doc:id="6ef63e96-b749-4092-b29d-e9cd444b8a66" >
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Mock sys-facebook-api-main-api-router" doc:id="2998df7b-aa41-468f-9dfb-626474e22aa5" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="sys-facebook-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:BAD_REQUEST" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<try doc:name="Try" doc:id="9caf1646-a31d-4ef3-8ba0-7c12759425ec" >
+				<flow-ref doc:name="flow ref to sys-facebook-api-main" doc:id="e8bbc8cb-b1c1-4f8c-ba1d-b39f64d3e12b" name="sys-facebook-api-main"/>
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="2cc41cdc-9cdd-4517-8e13-0448d3dfaf12" >
+						<logger level="INFO" doc:name="Logger" doc:id="c1c803c7-3601-4604-b508-6fc93d904eb3" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert api kit bad request" doc:id="7e527756-0795-42a4-ae37-6f3cdbe80df9" is="#[MunitTools::equalTo('APIKIT:BAD_REQUEST')]" expression="#[payload.result.errorType]"/>
+			<munit-tools:verify-call doc:name="Verify Call httpStatus 400" doc:id="b1c60f00-7921-4388-a9ee-f7e96c2866fb" processor="set-variable" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="400" attributeName="value" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sys-facebook-api-main-apikit-not-found-test" doc:id="b1d737db-29b8-4d54-9fec-46953481f931" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock sys-facebook-api-main-api-router" doc:id="bae2d18c-db7a-4f08-8c9a-6b378f318379" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="sys-facebook-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_FOUND" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<try doc:name="Try" doc:id="c37333ca-dfe9-4827-aaeb-c013a1557e26" >
+				<flow-ref doc:name="flow ref to sys-facebook-api-main" doc:id="cdefe6ad-7313-48cc-94f0-0448a21e952a" name="sys-facebook-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="9f52f585-e7bb-432c-9c4e-01ac77233a57" >
+						<logger level="INFO" doc:name="Logger" doc:id="e0147b50-2254-4634-bb97-13af00a6d92a" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert api kit not found" doc:id="9fa57c35-4f1b-4cf6-8d1c-f02e50b11dc2" is="#[MunitTools::equalTo('APIKIT:NOT_FOUND')]" expression="#[payload.result.errorType]" />
+			<munit-tools:verify-call doc:name="Verify Call httpStatus 404" doc:id="6dd5a906-c1d4-4381-aae5-24f0bd11a597" processor="set-variable" times="1" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="404" attributeName="value" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sys-facebook-api-main-apikit-method-not-allowed-test" doc:id="7df204b3-23be-4bd5-a8ce-98cf7a535cab" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock sys-facebook-api-main-api-router" doc:id="fead689c-8763-4279-b549-b7e1d2f14579" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="sys-facebook-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:METHOD_NOT_ALLOWED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<try doc:name="Try" doc:id="04fb66be-2a25-4170-aa11-371c1c37d397" >
+				<flow-ref doc:name="flow ref to sys-facebook-api-main" doc:id="029f1559-76ed-41dc-bfec-64e71c70d79b" name="sys-facebook-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="518013dd-95f1-4dd9-9291-2ab71db93ab9" >
+						<logger level="INFO" doc:name="Logger" doc:id="a333f978-bf73-4a09-a762-a5cd44d16e58" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert api kit method not allowed" doc:id="ee748636-b807-402e-92f5-1d25208a14bd" expression="#[payload.result.errorType]" is="#[MunitTools::equalTo('APIKIT:METHOD_NOT_ALLOWED')]" />
+			<munit-tools:verify-call doc:name="Verify Call httpStatus 405" doc:id="d4f38a38-f1d1-420f-84c0-91d445cd5f43" processor="set-variable" times="1" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="405" attributeName="value" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sys-facebook-api-main-apikit-not-accepted-test" doc:id="17ca6657-eba1-4df0-9d04-f9df828aec02" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock sys-facebook-api-main-api-router" doc:id="b80fb379-6e24-45b8-ba4a-1cc0808d7fd1" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="sys-facebook-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_ACCEPTABLE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<try doc:name="Try" doc:id="c3c3dec0-ce34-41d1-a881-ba2b984be41d" >
+				<flow-ref doc:name="flow ref to sys-facebook-api-main" doc:id="4f4073ec-4703-4df6-8f0c-9ad13ea25ce3" name="sys-facebook-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="0b5f4888-d3b1-4112-917b-a2f644f88ed9" >
+						<logger level="INFO" doc:name="Logger" doc:id="634cbd82-e0e3-445f-94cf-50c4cc016650" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert api kit not accepted" doc:id="5b76302a-9b48-4a8d-b03b-b72282cfb9bc" expression="#[payload.result.errorType]" is="#[MunitTools::equalTo('APIKIT:NOT_ACCEPTABLE')]" />
+			<munit-tools:verify-call doc:name="Verify Call httpStatus 406" doc:id="8153d4b4-ccb5-43fc-a4a8-e01f3acce7ec" processor="set-variable" times="1" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="406" attributeName="value" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sys-facebook-api-main-apikit-unsupported-media-type-test" doc:id="63a63eb5-523f-4d3b-89a6-b1df7dbfecc1">
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Mock sys-facebook-api-main-api-router" doc:id="cd2e056c-5452-4dfc-bce0-8a336c7328d8" processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="sys-facebook-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error typeId="APIKIT:UNSUPPORTED_MEDIA_TYPE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="774240c5-5b1d-47df-b4bb-367c2560be9b">
+				<flow-ref doc:name="flow ref to sys-facebook-api-main" doc:id="455aa80b-ad44-4f17-a3dd-40dd0cb9a37b" name="sys-facebook-api-main" />
+				<error-handler>
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="89200a94-75a7-4873-be20-0a5e4f2fdeb9">
+						<logger level="INFO" doc:name="Logger" doc:id="7572c9b5-9319-45ec-87f9-6c173999b30c" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert api kit not accepted" doc:id="f519bbc7-5a5a-40bd-835b-5361716f9192" expression="#[payload.result.errorType]" is="#[MunitTools::equalTo('APIKIT:UNSUPPORTED_MEDIA_TYPE')]" />
+			<munit-tools:verify-call doc:name="Verify Call httpStatus 415" doc:id="7f78db5c-beb4-42c5-bd11-0fc6f96ec78c" processor="set-variable" times="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="415" attributeName="value" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sys-facebook-api-main-apikit-not-implemented-test" doc:id="4da76924-3e52-425a-ad98-9d848387a5f8" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock sys-facebook-api-main-api-router" doc:id="16a6ed57-1990-4b51-952f-629ffb6e78a3" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="sys-facebook-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_IMPLEMENTED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<try doc:name="Try" doc:id="ca0fbd5a-cd59-438a-9a55-6a5e713d0236" >
+				<flow-ref doc:name="flow ref to sys-facebook-api-main"
+	doc:id="68d7b2d1-e309-48d5-b5ae-1b43b3f00f58"
+	name="sys-facebook-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="11b23d29-8279-47af-8edf-7d54ec0871b4" >
+						<logger level="INFO" doc:name="Logger" doc:id="e0e58317-4626-4001-937b-a33887ea259f" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert api kit not accepted" doc:id="6570cd06-24b3-45a6-a7a8-f26adc16bf75" expression="#[payload.result.errorType]" is="#[MunitTools::equalTo('APIKIT:NOT_IMPLEMENTED')]" />
+			<munit-tools:verify-call doc:name="Verify Call httpStatus 501" doc:id="a6eb5197-7b17-4fbd-8ea5-90fad3423afb" processor="set-variable" times="1" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="501" attributeName="value" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

@@ -12,8 +12,15 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 	<flow name="http-facebook-post-carrier-phone-status-flow"
 		doc:id="b3d479eb-8208-4a6f-92ed-190585f53ac7">
-		<logger level="INFO" doc:name="START - POST/carrier-phone-status" doc:id="399cb50d-e9d3-4bd9-831a-17db470e3724" message="START - POST/carrier-phone-status - Process Provision Request"/>
-		<http:request method="POST" doc:name="POST/carrier-phone-status" doc:id="e0bb2b4c-136e-4554-87e1-f53a76ab2ce3" config-ref="HTTP_Request_Config_Facebook_Graph" path="${facebook.path}" sendCorrelationId="NEVER">
+		<logger level="INFO"
+			doc:name="START - POST/carrier-phone-status"
+			doc:id="399cb50d-e9d3-4bd9-831a-17db470e3724"
+			message="START - POST/carrier-phone-status - Process Provision Request" />
+		<http:request method="POST"
+			doc:name="POST/carrier-phone-status"
+			doc:id="e0bb2b4c-136e-4554-87e1-f53a76ab2ce3"
+			config-ref="HTTP_Request_Config_Facebook_Graph"
+			path="${facebook.path}" sendCorrelationId="NEVER">
 			<http:headers><![CDATA[#[output application/java
 ---
 {
@@ -21,9 +28,13 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 }]]]></http:headers>
 			<http:query-params><![CDATA[#[vars.requestParams]]]></http:query-params>
 		</http:request>
-		<choice doc:name="IS provision successful? " doc:id="7e2945bd-d31e-47ce-8578-2ccd1459e5d2">
-			<when expression="#[attributes.statusCode == 200 and payload.status != 1]">
-				<ee:transform doc:name="FB API Response TO API response" doc:id="57c44ccf-e6d5-49e7-8351-3a6d259cf28d">
+		<choice doc:name="IS provision successful? "
+			doc:id="7e2945bd-d31e-47ce-8578-2ccd1459e5d2">
+			<when
+				expression="#[attributes.statusCode == 200 and payload.status != 1]">
+				<ee:transform
+					doc:name="FB API Response TO API response"
+					doc:id="57c44ccf-e6d5-49e7-8351-3a6d259cf28d">
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -37,87 +48,15 @@ output application/json
 				</ee:transform>
 			</when>
 			<otherwise>
-				<raise-error doc:name="Raise error - FACEBOOK:ERROR" doc:id="2b950b00-0c25-48df-9b4b-f345c22be8da" type="FACEBOOK:ERROR" description="There were client or server errors with individual provision requests" />
+				<raise-error doc:name="Raise error - FACEBOOK:ERROR"
+					doc:id="2b950b00-0c25-48df-9b4b-f345c22be8da" type="FACEBOOK:ERROR"
+					description="There were client or server errors with individual provision requests" />
 			</otherwise>
 		</choice>
-		<logger level="INFO" doc:name="END- POST/carrier-phone-status" doc:id="ef1b2c43-2601-40e9-ae40-b172b17d623e" message="END- POST/carrier-phone-status - Provision Request Complete."/>
-		<error-handler>
-			<on-error-propagate enableNotifications="true"
-				logException="true" doc:name="On Error Propagate"
-				doc:id="74257cf1-4d44-476a-a99c-3285e15c314f" type="FACEBOOK:ERROR">
-				<ee:transform doc:name="Set Payload - Provision Unsuccessful"
-					doc:id="7c7b9b4c-efb9-4d82-b69b-45e18f40655b">
-					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  "x-event-code": 9010,
-  "x-event-msg": "Provision Unsuccessful.",
-  "result":{
-  	"errorType": error.errorType.namespace ++ ":" ++ error.errorType.identifier,
-    "errorDescription": error.detailedDescription,
-    "correlationId": correlationId
-  }
-}]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-				<set-variable
-					value="#[error.errorMessage.attributes.statusCode default 500]"
-					doc:name="Set httpStatus = statusCode"
-					doc:id="939cdf21-f825-4c40-8f6c-5594fdb534b4"
-					variableName="httpStatus" />
-			</on-error-propagate>
-			<on-error-propagate enableNotifications="true"
-				logException="true" doc:name="On Error Propagate"
-				doc:id="79db93f8-b7d5-4f8c-a714-21e95a6f4111"
-				type="HTTP:BAD_REQUEST">
-				<ee:transform doc:name="Set Payload - HTTP  Bad Request"
-					doc:id="1e52cf4b-4687-46af-bb35-58f59ada8745">
-					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  "x-event-code": 9010,
-  "x-event-msg": "Bad Request - Invalid Parameter or Request",
-  "result":{
-  	"errorType": error.errorType.namespace ++ ":" ++ error.errorType.identifier,
-    "errorDescription": error.detailedDescription,
-    "correlationId": correlationId
-  }
-}]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-				<set-variable value="400" doc:name="Set httpStatus = 400"
-					doc:id="026fccbf-eb3b-44a5-b988-692efa8080e6"
-					variableName="httpStatus" />
-			</on-error-propagate>
-			<on-error-propagate enableNotifications="true"
-				logException="true" doc:name="On Error Propagate"
-				doc:id="5094b0f6-a765-463d-9a55-6d48fcb22384"
-				type="HTTP:CONNECTIVITY">
-				<ee:transform doc:name="Set Payload - HTTP  Connectivity"
-					doc:id="30c18554-afac-447d-a08f-248efdab2c04">
-					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  "x-event-code": 9010,
-  "x-event-msg": "Facebook API unreachable",
-  "result":{
-  	"errorType": error.errorType.namespace ++ ":" ++ error.errorType.identifier,
-    "errorDescription": error.detailedDescription,
-    "correlationId": correlationId
-  }
-}]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-				<set-variable value="500" doc:name="Set httpStatus = 500"
-					doc:id="06e1f70c-717b-4ead-aaa1-a8122f022b18"
-					variableName="httpStatus" />
-			</on-error-propagate>
-		</error-handler>
+		<logger level="INFO" doc:name="END- POST/carrier-phone-status"
+			doc:id="ef1b2c43-2601-40e9-ae40-b172b17d623e"
+			message="END- POST/carrier-phone-status - Provision Request Complete." />
+		<error-handler ref="sys-facebook-api_Shared_Error_Handler" />
+		
 	</flow>
 </mule>

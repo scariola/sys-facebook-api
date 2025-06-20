@@ -1,0 +1,30 @@
+{
+  "headers": {
+    "x-correlation-id": "123",
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.44.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "6d090b9b-5a35-4dfc-927a-ba41df7f05c4",
+    "host": "localhost:8081",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "143"
+  },
+  "clientCertificate": null,
+  "method": "POST",
+  "scheme": "http",
+  "queryParams": {},
+  "requestUri": "/api/provision",
+  "queryString": "",
+  "version": "HTTP/1.1",
+  "maskedRequestPath": "/provision",
+  "listenerPath": "/api/*",
+  "relativePath": "/api/provision",
+  "localAddress": "/127.0.0.1:8081",
+  "uriParams": {},
+  "rawRequestUri": "/api/provision",
+  "rawRequestPath": "/api/provision",
+  "remoteAddress": "/127.0.0.1:54616",
+  "requestPath": "/api/provision"
+}

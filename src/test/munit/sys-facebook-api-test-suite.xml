@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="sys-facebook-api-test-suite.xml" />
+	<munit:test name="post:\provision:application\json:sys-facebook-api-config-success-test" doc:id="363c1832-7549-4b95-8d34-c7256033f64d" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Flow ref to impl-facebook-provisioning-process-subflow" doc:id="5e269149-a185-4113-85a6-018a6f74c7a8" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="bd5ec399-5500-413c-a050-659a715eadb8" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://postprovisionapplicationjsonsysfacebookapiconfigsuccesstest\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://postprovisionapplicationjsonsysfacebookapiconfigsuccesstest\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://postprovisionapplicationjsonsysfacebookapiconfigsuccesstest\mock_variable_.dwl')]" />
+						<munit-tools:variable key="hmac" value="#[output application/json --- readUrl('classpath://postprovisionapplicationjsonsysfacebookapiconfigsuccesstest\mock_variable_1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="originalPayload" value="#[output application/json --- readUrl('classpath://postprovisionapplicationjsonsysfacebookapiconfigsuccesstest\mock_variable_2.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="requestParams" value="#[output application/java --- readUrl('classpath://postprovisionapplicationjsonsysfacebookapiconfigsuccesstest\mock_variable_3.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="hmacTimeStamp" value="#[output application/java --- readUrl('classpath://postprovisionapplicationjsonsysfacebookapiconfigsuccesstest\mock_variable_4.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="72f5dce0-656f-4fb0-b62b-b4af10dee969" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://postprovisionapplicationjsonsysfacebookapiconfigsuccesstest\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[readUrl('classpath://postprovisionapplicationjsonsysfacebookapiconfigsuccesstest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://postprovisionapplicationjsonsysfacebookapiconfigsuccesstest\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to post:\provision:application\json:sys-facebook-api-config" doc:id="0ec64ff4-9469-4196-93a4-dbfcb833308a" name="post:\provision:application\json:sys-facebook-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="681a4726-33a6-4ada-b07e-baae67e9756c" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import postprovisionapplicationjsonsysfacebookapiconfigsuccesstest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call doc:name="Verify END - POST/ provision" doc:id="4cdf0d18-5f2f-4019-a852-e8ab7b6786f9" processor="logger" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="3e78e990-9269-4c19-9e4c-3b9477d75292" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

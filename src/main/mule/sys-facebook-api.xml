@@ -22,6 +22,7 @@
 			</http:error-response>
 		</http:listener>
 		<apikit:router config-ref="sys-facebook-api-config" />
+		<error-handler ref="sys-facebook-api_APIKIT_Error_Handler" />
 		
 	</flow>
 	<flow

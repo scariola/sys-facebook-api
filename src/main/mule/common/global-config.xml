@@ -41,5 +41,7 @@ http://www.mulesoft.org/schema/mule/mongodb http://www.mulesoft.org/schema/mule/
 		<http:request-connection
 			host="${facebook.host}" port="${facebook.port}" />
 	</http:request-config>
-	<configuration doc:name="Configuration" doc:id="e6b16692-88ae-47ba-9933-3ab0e5e210bc" defaultErrorHandler-ref="sys-facebook-api_Shared_Error_Handler" />
+	<configuration doc:name="Global_Error_Handler_Config"
+		doc:id="e6b16692-88ae-47ba-9933-3ab0e5e210bc"
+		defaultErrorHandler-ref="sys-facebook-api_Shared_Error_Handler" />
 </mule>
