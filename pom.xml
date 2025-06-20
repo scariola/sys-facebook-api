@@ -84,7 +84,7 @@
 		<dependency>
 			<groupId>19504067-e1e3-45dd-943a-e163098ddbed</groupId>
 			<artifactId>sys-facebook-api</artifactId>
-			<version>1.0.7</version>
+			<version>1.0.8</version>
 			<classifier>raml</classifier>
 			<type>zip</type>
 		</dependency>

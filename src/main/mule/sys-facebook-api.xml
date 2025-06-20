@@ -22,15 +22,17 @@
 			</http:error-response>
 		</http:listener>
 		<apikit:router config-ref="sys-facebook-api-config" />
-		<error-handler
-			ref="sys-facebook-api_Shared_Error_Handler" />
-    
-</flow>
+		
+	</flow>
 	<flow
-		name="post:\facebook-access:application\json:sys-facebook-api-config">
-		<logger level="INFO" doc:name="Logger" doc:id="8a0e921f-743f-46a3-9853-c63e70efb7bc" />
-		<flow-ref doc:name="Flow Reference" doc:id="bd5ec399-5500-413c-a050-659a715eadb8" name="impl-facebook-provisioning-process-subflow"/>
-		<logger level="INFO" doc:name="Logger" doc:id="3e78e990-9269-4c19-9e4c-3b9477d75292" />
+		name="post:\provision:application\json:sys-facebook-api-config">
+		<logger level="INFO" doc:name="START - POST/ provision"
+			doc:id="8a0e921f-743f-46a3-9853-c63e70efb7bc" message="START - POST/ provision - Initiating facebook provision request"/>
+		<flow-ref doc:name="Flow ref to impl-facebook-provisioning-process-subflow"
+			doc:id="bd5ec399-5500-413c-a050-659a715eadb8"
+			name="impl-facebook-provisioning-process-subflow" />
+		<logger level="INFO" doc:name="END - POST/ provision"
+			doc:id="3e78e990-9269-4c19-9e4c-3b9477d75292" message="#[&quot;END - POST/ provision - &quot; ++ payload.'x-event-msg']"/>
 
 	</flow>
 </mule>
