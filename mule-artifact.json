@@ -1,6 +1,11 @@
 {
-  "minMuleVersion": "4.8.0",
+  "minMuleVersion": "4.9.0",
   "javaSpecificationVersions": [
     "17"
-  ]
+  ],
+  "api": {
+    "groupId": "19504067-e1e3-45dd-943a-e163098ddbed",
+    "assetId": "sys-facebook-api",
+    "version": "1.0.11"
+  }
 }
