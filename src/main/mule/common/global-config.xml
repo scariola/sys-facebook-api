@@ -8,7 +8,8 @@
 	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
 	xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
@@ -45,5 +46,8 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 	<configuration doc:name="Global_Error_Handler_Config"
 		doc:id="e6b16692-88ae-47ba-9933-3ab0e5e210bc"
 		defaultErrorHandler-ref="sys-facebook-api_Shared_Error_Handler" />
-	<api-gateway:autodiscovery apiId="${app.id}" ignoreBasePath="false" doc:name="API Autodiscovery" doc:id="be9a5dc6-0080-4d73-8f6a-d192aa4476ad" flowRef="sys-facebook-api-main" />
+	<api-gateway:autodiscovery apiId="${app.id}"
+		ignoreBasePath="false" doc:name="API Autodiscovery"
+		doc:id="be9a5dc6-0080-4d73-8f6a-d192aa4476ad"
+		flowRef="sys-facebook-api-main" />
 </mule>
