@@ -32,7 +32,7 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 			port="${http.port}" />
 	</http:listener-config>
 	<apikit:config name="sys-facebook-api-config"
-		api="resource::19504067-e1e3-45dd-943a-e163098ddbed:sys-facebook-api:1.0.10:raml:zip:sys-facebook-api.raml"
+		api="resource::19504067-e1e3-45dd-943a-e163098ddbed:sys-facebook-api:1.0.11:raml:zip:sys-facebook-api.raml"
 		outboundHeadersMapName="outboundHeaders"
 		httpStatusVarName="httpStatus" />
 	<http:request-config
