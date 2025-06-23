@@ -10,7 +10,7 @@
 
 	<flow name="sys-facebook-api-main">
 		<http:listener
-			config-ref="HTTP_Listener_Config_sys_facebook_api" path="/api/*">
+			config-ref="HTTP_Listener_Config_sys_facebook_api" path="${app.path.basepath}">
 			<http:response
 				statusCode="#[vars.httpStatus default 200]">
 				<http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
