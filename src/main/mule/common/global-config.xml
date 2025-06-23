@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <mule
-	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
 	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
 	xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	xmlns:mongodb="http://www.mulesoft.org/schema/mule/mongodb"
@@ -13,8 +12,7 @@
 http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
-http://www.mulesoft.org/schema/mule/mongodb http://www.mulesoft.org/schema/mule/mongodb/current/mule-mongodb.xsd
-http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd">
+http://www.mulesoft.org/schema/mule/mongodb http://www.mulesoft.org/schema/mule/mongodb/current/mule-mongodb.xsd">
 	<secure-properties:config
 		name="Secure_Properties_Config" doc:name="Secure Properties Config"
 		doc:id="74bea5bd-e298-4530-8459-dc624467e340"
@@ -46,8 +44,4 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 	<configuration doc:name="Global_Error_Handler_Config"
 		doc:id="e6b16692-88ae-47ba-9933-3ab0e5e210bc"
 		defaultErrorHandler-ref="sys-facebook-api_Shared_Error_Handler" />
-	<api-gateway:autodiscovery apiId="${app.id}"
-		ignoreBasePath="true" doc:name="sys-facebook-api_API_Autodiscovery"
-		doc:id="ae9bd6ff-a5c6-41b2-9625-41acca475d0c"
-		flowRef="sys-facebook-api-main" />
 </mule>

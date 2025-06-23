@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>19504067-e1e3-45dd-943a-e163098ddbed</groupId>
+	<groupId>com.mycompany</groupId>
 	<artifactId>sys-facebook-api</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>mule-application</packaging>
 
 	<name>sys-facebook-api</name>
@@ -18,11 +16,6 @@
 		<app.runtime>4.8.1</app.runtime>
 		<mule.maven.plugin.version>4.3.0</mule.maven.plugin.version>
 		<munit.version>3.4.0</munit.version>
-
-		<environment>Spectre</environment>
-		<targetName>Cloudhub-US-East-2</targetName>
-		<muleVersionc>4.9.0</muleVersionc>
-		<appName>sys-facebook-api</appName>
 	</properties>
 
 	<build>
@@ -35,27 +28,8 @@
 			<plugin>
 				<groupId>org.mule.tools.maven</groupId>
 				<artifactId>mule-maven-plugin</artifactId>
-				<version>3.7.1</version>
+				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
-				<configuration>
-					<cloudhub2Deployment>
-						<uri>https://anypoint.mulesoft.com</uri>
-						<provider>MC</provider>
-						<environment>${environment}</environment>
-						<target>${targetName}</target>
-						<muleVersion>${muleVersion}</muleVersion>
-						<server>spectre-deployer</server>
-						<applicationName>${appName}</applicationName>
-						<replicas>1</replicas>
-						<vCores>0.1</vCores>
-						<secureProperties>
-							<anypoint.platform.client_id>5f9a450634724463beb0ac190a8c9a8b</anypoint.platform.client_id>
-							<anypoint.platform.client_secret>63d8f6aD393148359ae3f09698E60E3A</anypoint.platform.client_secret>
-							<env>dev</env>
-							<secure.key>Dev#Key2025@xA1z</secure.key>
-						</secureProperties>
-					</cloudhub2Deployment>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -86,7 +60,7 @@
 					<coverage>
 						<runCoverage>true</runCoverage>
 						<formats>
-							<format>json</format>
+							<format>html</format>
 						</formats>
 					</coverage>
 				</configuration>
@@ -99,14 +73,7 @@
 			</resource>
 		</resources>
 	</build>
-	<distributionManagement>
-		<repository>
-			<id>Repository</id>
-			<name>Corporate Repository</name>
-			<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url>
-			<layout>default</layout>
-		</repository>
-	</distributionManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.mule.connectors</groupId>
