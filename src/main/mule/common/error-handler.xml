@@ -90,12 +90,12 @@
 output application/json
 ---
 {
+  "x-event-id":	correlationId,		
   "x-event-code": 9010,
   "x-event-msg": "Provision Unsuccessful.",
   "result":{
   	"errorType": error.errorType.namespace ++ ":" ++ error.errorType.identifier,
-    "errorDescription": error.detailedDescription,
-    "correlationId": correlationId
+    "errorDescription": error.detailedDescription
   }
 }]]></ee:set-payload>
 				</ee:message>
@@ -116,12 +116,12 @@ output application/json
 output application/json
 ---
 {
+  "x-event-id":	correlationId,		 
   "x-event-code": 9010,
   "x-event-msg": "Bad Request - Invalid Parameter or Request",
   "result":{
   	"errorType": error.errorType.namespace ++ ":" ++ error.errorType.identifier,
-    "errorDescription": error.detailedDescription,
-    "correlationId": correlationId
+    "errorDescription": error.detailedDescription
   }
 }]]></ee:set-payload>
 				</ee:message>
@@ -143,12 +143,12 @@ output application/json
 output application/json
 ---
 {
+ "x-event-id":	correlationId,		
   "x-event-code": 9010,
   "x-event-msg": "Facebook API unreachable",
   "result":{
   	"errorType": error.errorType.namespace ++ ":" ++ error.errorType.identifier,
-    "errorDescription": error.detailedDescription,
-    "correlationId": correlationId
+    "errorDescription": error.detailedDescription
   }
 }]]></ee:set-payload>
 				</ee:message>

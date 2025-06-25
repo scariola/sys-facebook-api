@@ -32,22 +32,21 @@ payload]]></ee:set-variable>
 				<ee:set-variable variableName="hmac"><![CDATA[%dw 2.0
 output application/json
 import dw::Crypto
-var hmac_timestamp = vars.hmacTimeStamp 
-var carrier_id = vars.originalPayload.'carrier-id'
-var concatData = hmac_timestamp ++ carrier_id
+var carrierId = p('facebook.carrier.id')
+var concatData = vars.hmacTimeStamp ++ carrierId
 var secret_key = p('facebook.secret.key')
 ---
 {
     "hmac" : Crypto::HMACWith(secret_key as Binary, concatData as Binary, "HmacSHA256"),
-    "timestamp": hmac_timestamp
+    "timestamp": vars.hmacTimeStamp
 }
 
  ]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
-		<ee:transform doc:name="Payload TO FB API Request, var - Request Parameter" doc:id="37ebe7af-a6c3-4916-b527-c507f9238631">
+		<ee:transform doc:name="Payload TO Facebook Graph API, var - Request Parameter" doc:id="37ebe7af-a6c3-4916-b527-c507f9238631">
 			<ee:message>
-				<ee:set-payload><![CDATA[%dw 2.0
+				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 var dt = vars.originalPayload
 ---
@@ -67,7 +66,7 @@ output application/java
 {
     "data_type": "provision",
     "timestamp": vars.hmac.timestamp,
-    "carrier_id": vars.originalPayload.'carrier-id',
+    "carrier_id": p('facebook.carrier.id'),
     "hmac": vars.hmac.hmac
 }]]></ee:set-variable>
 			</ee:variables>
