@@ -12,7 +12,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/java/current/mule-java.xsd">
-	<sub-flow name="impl-facebook-provisioning-process-subflow" doc:id="1fdbc7bd-7ea6-43b4-8d4b-b6ad2ccb4aac" >
+	<sub-flow name="impl-post-provision-subflow" doc:id="1fdbc7bd-7ea6-43b4-8d4b-b6ad2ccb4aac" >
 		<logger level="INFO" doc:name="START - Process Provision Request" doc:id="e4c0b6d0-080f-4f86-a704-fe912ca9ab34" message="START - Process Provision Request "/>
 		<ee:transform doc:name="Store Original Payload" doc:id="d82d2502-2494-4c76-ab40-dcd543d0df36">
 			<ee:message>
@@ -71,7 +71,7 @@ output application/java
 }]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
-		<flow-ref doc:name="Flow ref to http-facebook-post-carrier-phone-status-flow" doc:id="f1255e39-e0c6-4cde-81dc-1660ee567ca5" name="http-facebook-post-carrier-phone-status-flow"/>
+		<flow-ref doc:name="Flow ref to http-facebook-post-carrier-phone-status-flow" doc:id="f1255e39-e0c6-4cde-81dc-1660ee567ca5" name="post-carrier-phone-status-flow"/>
 		<logger level="INFO" doc:name="END - Process Provision Request" doc:id="d030a6c4-e526-490c-91aa-478998ad2726" message="END - Process Provision Request "/>
 	</sub-flow>
 

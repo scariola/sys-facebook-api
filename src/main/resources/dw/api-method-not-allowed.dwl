@@ -6,7 +6,7 @@ output application/json
   "x-event-code": 9010,
   "x-event-msg": "Method not allowed",
   "result":{
-  	"errorType": error.errorType.namespace ++ ":" ++ error.errorType.identifier,
-    "errorDescription": error.detailedDescription
+  	"error-type": error.errorType.namespace ++ ":" ++ error.errorType.identifier,
+    "error-description": error.detailedDescription
   }
 }

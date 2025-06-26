@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
-	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xsi:schemaLocation="
+<mule xmlns:tracing="http://www.mulesoft.org/schema/mule/tracing"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
 		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
-		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/tracing http://www.mulesoft.org/schema/mule/tracing/current/mule-tracing.xsd">
 	<munit:config name="sys-facebook-api-test-suite.xml" />
 	<munit:test name="post:\provision:application\json:sys-facebook-api-config-success-test" doc:id="363c1832-7549-4b95-8d34-c7256033f64d" >
 		<munit:behavior >
@@ -26,16 +27,18 @@
 					</munit-tools:variables>
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit:set-event doc:name="Set Input" doc:id="72f5dce0-656f-4fb0-b62b-b4af10dee969" >
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Input" doc:id="72f5dce0-656f-4fb0-b62b-b4af10dee969">
 				<munit:payload value="#[output application/json --- readUrl('classpath://postprovisionapplicationjsonsysfacebookapiconfigsuccesstest\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
 				<munit:attributes value="#[readUrl('classpath://postprovisionapplicationjsonsysfacebookapiconfigsuccesstest\set-event_attributes.dwl')]" />
-				<munit:variables >
+				<munit:variables>
 					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://postprovisionapplicationjsonsysfacebookapiconfigsuccesstest\set-event_variable_.dwl')]" />
 				</munit:variables>
 			</munit:set-event>
-		</munit:behavior>
-		<munit:execution >
-			<flow-ref doc:name="Flow-ref to post:\provision:application\json:sys-facebook-api-config" doc:id="0ec64ff4-9469-4196-93a4-dbfcb833308a" name="post:\provision:application\json:sys-facebook-api-config"/>
+			<tracing:with-correlation-id doc:name="With CorrelationID" doc:id="ef68c669-725f-49bd-9995-e4f73f764d1f" correlationId='#["123"]'>
+				<flow-ref doc:name="Flow-ref to post:\provision:application\json:sys-facebook-api-config" doc:id="0ec64ff4-9469-4196-93a4-dbfcb833308a" name="post:\provision:application\json:sys-facebook-api-config" />
+			</tracing:with-correlation-id>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert doc:name="Assert payload" doc:id="681a4726-33a6-4ada-b07e-baae67e9756c" message="The payload does not match">

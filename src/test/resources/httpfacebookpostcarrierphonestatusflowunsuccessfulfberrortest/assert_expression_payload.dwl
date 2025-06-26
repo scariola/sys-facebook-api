@@ -2,6 +2,7 @@
 import * from dw::test::Asserts
 ---
 payload must equalTo({
+  "x-event-id": "123",	
   "x-event-code": 9010,
   "x-event-msg": "Provision Unsuccessful.",
   "result": {
