@@ -57,7 +57,7 @@ var msg = if (vars.originalPayload.provision.expiration != 1)  "Provisioning suc
 		</choice>
 		<logger level="INFO" doc:name="END- POST/carrier-phone-status"
 			doc:id="ef1b2c43-2601-40e9-ae40-b172b17d623e"
-			message="END- POST/carrier-phone-status - Provision Request Complete." />
+			message='#["END- POST/carrier-phone-status" ++ payload."x-event-msg"]' />
 		<error-handler ref="sys-facebook-api_Shared_Error_Handler" />
 		
 	</flow>
