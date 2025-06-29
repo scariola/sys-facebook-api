@@ -24,8 +24,8 @@ output application/json
 payload]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
-		<java:invoke-static doc:name="vars.hmacTimeStamp &lt;Unix Time Stamp&gt;" doc:id="4d7a5934-875b-40d3-a73e-6e3fe5944d66" class="com.facebookTimestamp.utils.TimestampUtils" method="generateHmacTimestamp()" target="hmacTimeStamp" />
-		<ee:transform doc:name="var - generata hmac algorithm" doc:id="14715d44-3703-4bda-84f8-6fbd3f4768ce">
+		<java:invoke-static doc:name="vars.hmacTimeStamp" doc:id="4d7a5934-875b-40d3-a73e-6e3fe5944d66" class="com.facebookTimestamp.utils.TimestampUtils" method="generateHmacTimestamp()" target="hmacTimeStamp" />
+		<ee:transform doc:name="var - generataHmac" doc:id="14715d44-3703-4bda-84f8-6fbd3f4768ce">
 			<ee:message>
 			</ee:message>
 			<ee:variables>
@@ -44,7 +44,7 @@ var secret_key = p('facebook.secret.key')
  ]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
-		<ee:transform doc:name="Payload TO Facebook Graph API, var - Request Parameter" doc:id="37ebe7af-a6c3-4916-b527-c507f9238631">
+		<ee:transform doc:name="Payload TO Facebook Graph API, var - requestParams" doc:id="37ebe7af-a6c3-4916-b527-c507f9238631">
 			<ee:message>
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
