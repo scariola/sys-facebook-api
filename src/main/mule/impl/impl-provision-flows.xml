@@ -71,7 +71,7 @@ output application/java
 }]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
-		<flow-ref doc:name="Flow ref to http-facebook-post-carrier-phone-status-flow" doc:id="f1255e39-e0c6-4cde-81dc-1660ee567ca5" name="post-carrier-phone-status-flow"/>
+		<flow-ref doc:name="http-facebook-post-carrier-phone-status-flow" doc:id="f1255e39-e0c6-4cde-81dc-1660ee567ca5" name="post-carrier-phone-status-flow"/>
 		<logger level="INFO" doc:name="END - Process Provision Request" doc:id="d030a6c4-e526-490c-91aa-478998ad2726" message="END - Process Provision Request "/>
 	</sub-flow>
 
