@@ -9,7 +9,7 @@
 		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
 http://www.mulesoft.org/schema/mule/tracing http://www.mulesoft.org/schema/mule/tracing/current/mule-tracing.xsd">
 	<munit:config name="http-facebook-flow-test-suite.xml" />
-	<munit:test name="post-carrier-phone-status-flow-success-test" doc:id="cc23124a-673c-4a53-9e29-c8f233d6d77d">
+	<munit:test name="facebook-provision-flow-success-test" doc:id="cc23124a-673c-4a53-9e29-c8f233d6d77d">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock POST/carrier-phone-status" doc:id="3dfa74e3-93ba-4ca7-8c69-ca34036f1cbe" processor="http:request">
 				<munit-tools:with-attributes >
@@ -39,7 +39,7 @@ http://www.mulesoft.org/schema/mule/tracing http://www.mulesoft.org/schema/mule/
 				</munit:variables>
 			</munit:set-event>
 			<tracing:with-correlation-id doc:name="With CorrelationID" doc:id="7c3f1996-6930-4d9c-84ea-4663ce34f8f1" correlationId='#["123"]'>
-				<flow-ref doc:name="Flow-ref to http-facebook-post-carrier-phone-status-flow" doc:id="b2306377-d4b6-4cfd-a219-801002b10d58" name="post-carrier-phone-status-flow" />
+				<flow-ref doc:name="Flow-ref to facebook-provision-flow" doc:id="b2306377-d4b6-4cfd-a219-801002b10d58" name="facebook-provision-flow" />
 			</tracing:with-correlation-id>
 		</munit:execution>
 		<munit:validation >
@@ -70,7 +70,7 @@ attributes must [
 			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="post-carrier-phone-status-flow-unsuccessful-fb-error-test" doc:id="7764e629-ae06-483c-931c-21a4fdcf5d8d">
+	<munit:test name="facebook-provision-flow-unsuccessful-fb-error-test" doc:id="7764e629-ae06-483c-931c-21a4fdcf5d8d">
 		<munit:behavior>
 			<munit-tools:mock-when doc:name="Mock POST/carrier-phone-status" doc:id="28e8a1f4-3769-4ff6-a874-3d54cc521982" processor="http:request" >
 				<munit-tools:with-attributes >
@@ -100,7 +100,7 @@ attributes must [
 				</munit:variables>
 			</munit:set-event>
 			<try doc:name="Try" doc:id="6169af83-572b-4d78-ac08-8ca4de8c7be7">
-				<flow-ref doc:name="Flow-ref to http-facebook-post-carrier-phone-status-flow" doc:id="abe855fb-9957-4079-8365-049e8d275db3" name="post-carrier-phone-status-flow" />
+				<flow-ref doc:name="Flow-ref to facebook-provision-flow" doc:id="abe855fb-9957-4079-8365-049e8d275db3" name="facebook-provision-flow" />
 				<error-handler>
 					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="a7ced592-91cc-4a7f-8b99-7a9d69ca20b6">
 						<logger level="INFO" doc:name="Logger" doc:id="b4b25764-5809-4eff-8d65-a9172156f9c9" message="Facebook Provision Unsuccessful" />
@@ -118,7 +118,7 @@ attributes must [
 			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="post-carrier-phone-status-flow-api_Shared_Error_Handler-http-bad-request-test" doc:id="491e1332-0740-4b52-a5e5-29ce6422653e">
+	<munit:test name="facebook-provision-flow-api_Shared_Error_Handler-http-bad-request-test" doc:id="491e1332-0740-4b52-a5e5-29ce6422653e">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock POST/carrier-phone-status" doc:id="005b6792-e02e-405c-80c3-d9b078843a92" processor="http:request" >
 				<munit-tools:with-attributes >
@@ -141,7 +141,7 @@ attributes must [
 				</munit:variables>
 			</munit:set-event>
 			<try doc:name="Try" doc:id="b7544d11-4338-48d5-86f0-f0032616d6b9" >
-				<flow-ref doc:name="Flow-ref to http-facebook-post-carrier-phone-status-flow" doc:id="24a433e3-cb78-46a8-b20c-7ddc66316e5f" name="post-carrier-phone-status-flow" />
+				<flow-ref doc:name="Flow-ref to facebook-provision-flow" doc:id="24a433e3-cb78-46a8-b20c-7ddc66316e5f" name="facebook-provision-flow" />
 				<error-handler >
 					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="08ed5b3c-af80-47cf-9128-e1786df8e2ab" >
 						<logger level="INFO" doc:name="Logger" doc:id="0906c032-13bf-4a65-99ae-e389409fb018" message="Facebook Provision Unsuccessful" />
@@ -159,7 +159,7 @@ attributes must [
 			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="post-carrier-phone-status-flow-api_Shared_Error_Handler-http-connectivity-test" doc:id="8538fbba-6c20-4bbc-b247-94a90d2fd1cf">
+	<munit:test name="facebook-provision-flow-api_Shared_Error_Handler-http-connectivity-test" doc:id="8538fbba-6c20-4bbc-b247-94a90d2fd1cf">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock POST/carrier-phone-status" doc:id="965c9c0f-3978-4de5-8337-79dd756b5233" processor="http:request" >
 				<munit-tools:with-attributes >
@@ -182,7 +182,7 @@ attributes must [
 				</munit:variables>
 			</munit:set-event>
 			<try doc:name="Try" doc:id="6e702a66-1441-4e6a-9451-011046e32150" >
-				<flow-ref doc:name="Flow-ref to http-facebook-post-carrier-phone-status-flow" doc:id="13ec0b65-8eda-43dc-b7d6-c4c04b268dff" name="post-carrier-phone-status-flow" />
+				<flow-ref doc:name="Flow-ref to facebook-provision-flow" doc:id="13ec0b65-8eda-43dc-b7d6-c4c04b268dff" name="facebook-provision-flow" />
 				<error-handler >
 					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="5dbba01e-0129-40d7-978d-8c893ed2a991" >
 						<logger level="INFO" doc:name="Logger" doc:id="db5a6d91-d46d-47e8-a6ce-86aace867e7d" message="Facebook Provision Unsuccessful" />
@@ -200,7 +200,9 @@ attributes must [
 			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="post-carrier-phone-status-flow-api_Shared_Error_Handler-any-test" doc:id="7b6ee4b6-a189-4782-8f53-2c0f606ef23f">
+	<munit:test
+	name="facebook-provision-flow-api_Shared_Error_Handler-any-test"
+	doc:id="7b6ee4b6-a189-4782-8f53-2c0f606ef23f">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock POST/carrier-phone-status" doc:id="44dc7265-e852-4f05-9f88-6a6b31393a49" processor="http:request" >
 				<munit-tools:with-attributes >
@@ -223,7 +225,7 @@ attributes must [
 				</munit:variables>
 			</munit:set-event>
 			<try doc:name="Try" doc:id="9115c5e3-6044-45a8-8003-c4961658278e" >
-				<flow-ref doc:name="Flow-ref to http-facebook-post-carrier-phone-status-flow" doc:id="0379f528-146c-479d-af25-71a6d053b664" name="post-carrier-phone-status-flow" />
+				<flow-ref doc:name="Flow-ref to facebook-provision-flow" doc:id="0379f528-146c-479d-af25-71a6d053b664" name="facebook-provision-flow" />
 				<error-handler >
 					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="fde2d03c-35fb-4a19-a69f-d11c229e47db" >
 						<logger level="INFO" doc:name="Logger" doc:id="17e19184-0bb1-4d2e-9d2c-d71a77def9fe" message="Facebook Provision Unsuccessful" />

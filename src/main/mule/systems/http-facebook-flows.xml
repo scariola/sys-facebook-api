@@ -10,7 +10,7 @@
 http://www.mulesoft.org/schema/mule/mongodb http://www.mulesoft.org/schema/mule/mongodb/current/mule-mongodb.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
-	<flow name="post-carrier-phone-status-flow"
+	<flow name="facebook-provision-flow"
 		doc:id="b3d479eb-8208-4a6f-92ed-190585f53ac7">
 		<logger level="INFO"
 			doc:name="START - POST/carrier-phone-status"
@@ -21,12 +21,13 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 			doc:id="e0bb2b4c-136e-4554-87e1-f53a76ab2ce3"
 			config-ref="HTTP_Request_Config_Facebook_Graph"
 			path="${facebook.path}" sendCorrelationId="NEVER">
+			<http:body ><![CDATA[#[payload.requestPayload]]]></http:body>
 			<http:headers><![CDATA[#[output application/java
 ---
 {
 	"Content-Type" : "application/json"
 }]]]></http:headers>
-			<http:query-params><![CDATA[#[vars.requestParams]]]></http:query-params>
+			<http:query-params><![CDATA[#[payload.requestParams]]]></http:query-params>
 		</http:request>
 		<choice doc:name="IS provision successful? "
 			doc:id="7e2945bd-d31e-47ce-8578-2ccd1459e5d2">
