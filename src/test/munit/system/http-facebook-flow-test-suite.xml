@@ -16,28 +16,26 @@ http://www.mulesoft.org/schema/mule/tracing http://www.mulesoft.org/schema/mule/
 					<munit-tools:with-attribute whereValue="e0bb2b4c-136e-4554-87e1-f53a76ab2ce3" attributeName="doc:id" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return >
-					<munit-tools:payload value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowsuccesstest\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
-					<munit-tools:attributes value="#[readUrl('classpath://httpfacebookpostcarrierphonestatusflowsuccesstest\mock_attributes.dwl')]" />
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://dw/mocks/payload-facebook-success.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[output application/json --- readUrl('classpath://dw/mocks/attr-headers.dwl')]" mediaType="application/json" encoding="UTF-8" />
 					<munit-tools:variables >
-						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://httpfacebookpostcarrierphonestatusflowsuccesstest\mock_variable_.dwl')]" />
-						<munit-tools:variable key="hmac" value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowsuccesstest\mock_variable_1.dwl')]" mediaType="application/json" encoding="UTF-8" />
-						<munit-tools:variable key="originalPayload" value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowsuccesstest\mock_variable_2.dwl')]" mediaType="application/json" encoding="UTF-8" />
-						<munit-tools:variable key="requestParams" value="#[output application/java --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowsuccesstest\mock_variable_3.dwl')]" mediaType="application/java" encoding="UTF-8" />
-						<munit-tools:variable key="hmacTimeStamp" value="#[output application/java --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowsuccesstest\mock_variable_4.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="hmac" value="#[output application/json --- readUrl('classpath://dw/mocks/var-hmac.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="originalPayload" value="#[output application/json --- readUrl('classpath://dw/mocks/var-originalPayload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="requestParams" value="#[output application/json --- readUrl('classpath://dw/mocks/var-requestParams.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="hmacTimeStamp" value="#[output application/json --- readUrl('classpath://dw/mocks/var-hmacTimeStamp.dwl')]" mediaType="application/java" encoding="UTF-8" />
 					</munit-tools:variables>
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
 			<munit:set-event doc:name="Set Input" doc:id="5d483e5a-51ea-4b37-9661-a52666d91a89">
-				<munit:payload value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowsuccesstest\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
-				<munit:attributes value="#[readUrl('classpath://httpfacebookpostcarrierphonestatusflowsuccesstest\set-event_attributes.dwl')]" />
-				<munit:variables>
-					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://httpfacebookpostcarrierphonestatusflowsuccesstest\set-event_variable_.dwl')]" />
-					<munit:variable key="hmac" value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowsuccesstest\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/json" />
-					<munit:variable key="originalPayload" value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowsuccesstest\set-event_variable_2.dwl')]" encoding="UTF-8" mediaType="application/json" />
-					<munit:variable key="requestParams" value="#[output application/java --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowsuccesstest\set-event_variable_3.dwl')]" encoding="UTF-8" mediaType="application/java" />
-					<munit:variable key="hmacTimeStamp" value="#[output application/java --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowsuccesstest\set-event_variable_4.dwl')]" encoding="UTF-8" mediaType="application/java" />
+				<munit:payload value="#[output application/json --- readUrl('classpath://dw/events/post-provision-request.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[output application/json --- readUrl('classpath://dw/events/attr-post-provision.dwl')]" />
+				<munit:variables >
+					<munit:variable key="hmac" value="#[output application/json --- readUrl('classpath://dw/mocks/var-hmac.dwl')]" encoding="UTF-8" mediaType="application/json" />
+					<munit:variable key="originalPayload" value="#[output application/json --- readUrl('classpath://dw/mocks/var-originalPayload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+					<munit:variable key="requestParams" value="#[output application/json --- readUrl('classpath://dw/mocks/var-requestParams.dwl')]" encoding="UTF-8" mediaType="application/java" />
+					<munit:variable key="hmacTimeStamp" value="#[output application/json --- readUrl('classpath://dw/mocks/var-hmacTimeStamp.dwl')]" encoding="UTF-8" mediaType="application/java" />
 				</munit:variables>
 			</munit:set-event>
 			<tracing:with-correlation-id doc:name="With CorrelationID" doc:id="7c3f1996-6930-4d9c-84ea-4663ce34f8f1" correlationId='#["123"]'>
@@ -47,15 +45,23 @@ http://www.mulesoft.org/schema/mule/tracing http://www.mulesoft.org/schema/mule/
 		<munit:validation >
 			<munit-tools:assert doc:name="Assert payload" doc:id="14a5068a-6e24-45ec-a282-1aa7d5867f58" message="The payload does not match">
 				<munit-tools:that ><![CDATA[#[%dw 2.0
-import httpfacebookpostcarrierphonestatusflowsuccesstest::assert_expression_payload
+import * from dw::test::Asserts
 ---
-assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+payload must equalTo({
+  "x-event-id": "123",	
+  "x-event-code": 1005,
+  "x-event-msg": "Provisioning successful"
+})]]]></munit-tools:that>
 			</munit-tools:assert>
 			<munit-tools:assert doc:name="Assert attributes" doc:id="0b9a08a6-e7f7-4064-8602-a3eb5f9276d9" message="The attributes do not match">
 				<munit-tools:that ><![CDATA[#[%dw 2.0
-import httpfacebookpostcarrierphonestatusflowsuccesstest::assert_expression_attributes
+import * from dw::test::Asserts
 ---
-assert_expression_attributes::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+attributes must [
+  beObject(),
+  $[*"statusCode"] must haveSize(1),
+  $[*"statusCode"][0] must equalTo(200)
+]]]]></munit-tools:that>
 			</munit-tools:assert>
 			<munit-tools:verify-call doc:name="Verify END- POST/carrier-phone-status" doc:id="ab73cb87-d91c-47b0-bd7e-03e960d27f78" processor="logger" times="1">
 				<munit-tools:with-attributes >
@@ -66,33 +72,31 @@ assert_expression_attributes::main({payload: payload, attributes: attributes, va
 	</munit:test>
 	<munit:test name="post-carrier-phone-status-flow-unsuccessful-fb-error-test" doc:id="7764e629-ae06-483c-931c-21a4fdcf5d8d">
 		<munit:behavior>
-			<munit-tools:mock-when doc:name="Mock POST/carrier-phone-status" doc:id="db67c641-5aa1-42ad-9f99-08238b30e30a" processor="http:request">
-				<munit-tools:with-attributes>
+			<munit-tools:mock-when doc:name="Mock POST/carrier-phone-status" doc:id="28e8a1f4-3769-4ff6-a874-3d54cc521982" processor="http:request" >
+				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="e0bb2b4c-136e-4554-87e1-f53a76ab2ce3" attributeName="doc:id" />
 				</munit-tools:with-attributes>
-				<munit-tools:then-return>
-					<munit-tools:payload value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
-					<munit-tools:attributes value="#[readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\mock_attributes.dwl')]" />
-					<munit-tools:variables>
-						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\mock_variable_.dwl')]" />
-						<munit-tools:variable key="hmac" value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\mock_variable_1.dwl')]" mediaType="application/json" encoding="UTF-8" />
-						<munit-tools:variable key="originalPayload" value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\mock_variable_2.dwl')]" mediaType="application/json" encoding="UTF-8" />
-						<munit-tools:variable key="requestParams" value="#[output application/java --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\mock_variable_3.dwl')]" mediaType="application/java" encoding="UTF-8" />
-						<munit-tools:variable key="hmacTimeStamp" value="#[output application/java --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\mock_variable_4.dwl')]" mediaType="application/java" encoding="UTF-8" />
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://dw/mocks/payload-facebook-not-success.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[output application/json --- readUrl('classpath://dw/mocks/attr-headers.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:variables >
+						<munit-tools:variable key="hmac" value="#[output application/json --- readUrl('classpath://dw/mocks/var-hmac.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="originalPayload" value="#[output application/json --- readUrl('classpath://dw/mocks/var-originalPayload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="requestParams" value="#[output application/json --- readUrl('classpath://dw/mocks/var-requestParams.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="hmacTimeStamp" value="#[output application/json --- readUrl('classpath://dw/mocks/var-hmacTimeStamp.dwl')]" mediaType="application/java" encoding="UTF-8" />
 					</munit-tools:variables>
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution>
-			<munit:set-event doc:name="Set Input" doc:id="42f0d09a-9361-4d28-8143-fc86d889e7a2">
-				<munit:payload value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
-				<munit:attributes value="#[readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_attributes.dwl')]" />
-				<munit:variables>
-					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_variable_.dwl')]" />
-					<munit:variable key="hmac" value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/json" />
-					<munit:variable key="originalPayload" value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_variable_2.dwl')]" encoding="UTF-8" mediaType="application/json" />
-					<munit:variable key="requestParams" value="#[output application/java --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_variable_3.dwl')]" encoding="UTF-8" mediaType="application/java" />
-					<munit:variable key="hmacTimeStamp" value="#[output application/java --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_variable_4.dwl')]" encoding="UTF-8" mediaType="application/java" />
+			<munit:set-event doc:name="Set Input" doc:id="dcecbe42-741f-4e9f-83f7-838bea9ac8b6" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://dw/events/post-provision-request.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[output application/json --- readUrl('classpath://dw/events/attr-post-provision.dwl')]" />
+				<munit:variables >
+					<munit:variable key="hmac" value="#[output application/json --- readUrl('classpath://dw/mocks/var-hmac.dwl')]" encoding="UTF-8" mediaType="application/json" />
+					<munit:variable key="originalPayload" value="#[output application/json --- readUrl('classpath://dw/mocks/var-originalPayload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+					<munit:variable key="requestParams" value="#[output application/json --- readUrl('classpath://dw/mocks/var-requestParams.dwl')]" encoding="UTF-8" mediaType="application/java" />
+					<munit:variable key="hmacTimeStamp" value="#[output application/json --- readUrl('classpath://dw/mocks/var-hmacTimeStamp.dwl')]" encoding="UTF-8" mediaType="application/java" />
 				</munit:variables>
 			</munit:set-event>
 			<try doc:name="Try" doc:id="6169af83-572b-4d78-ac08-8ca4de8c7be7">
@@ -126,15 +130,14 @@ assert_expression_attributes::main({payload: payload, attributes: attributes, va
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
-			<munit:set-event doc:name="Set Input" doc:id="3d5dc7e6-26e6-4e84-b1eb-ac56db4f2602">
-				<munit:payload value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
-				<munit:attributes value="#[readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_attributes.dwl')]" />
-				<munit:variables>
-					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_variable_.dwl')]" />
-					<munit:variable key="hmac" value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/json" />
-					<munit:variable key="originalPayload" value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_variable_2.dwl')]" encoding="UTF-8" mediaType="application/json" />
-					<munit:variable key="requestParams" value="#[output application/java --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_variable_3.dwl')]" encoding="UTF-8" mediaType="application/java" />
-					<munit:variable key="hmacTimeStamp" value="#[output application/java --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_variable_4.dwl')]" encoding="UTF-8" mediaType="application/java" />
+			<munit:set-event doc:name="Set Input" doc:id="da9705fc-8c2a-4c16-8a12-76c64c02393f" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://dw/events/post-provision-request.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[output application/json --- readUrl('classpath://dw/events/attr-post-provision.dwl')]" />
+				<munit:variables >
+					<munit:variable key="hmac" value="#[output application/json --- readUrl('classpath://dw/mocks/var-hmac.dwl')]" encoding="UTF-8" mediaType="application/json" />
+					<munit:variable key="originalPayload" value="#[output application/json --- readUrl('classpath://dw/mocks/var-originalPayload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+					<munit:variable key="requestParams" value="#[output application/json --- readUrl('classpath://dw/mocks/var-requestParams.dwl')]" encoding="UTF-8" mediaType="application/java" />
+					<munit:variable key="hmacTimeStamp" value="#[output application/json --- readUrl('classpath://dw/mocks/var-hmacTimeStamp.dwl')]" encoding="UTF-8" mediaType="application/java" />
 				</munit:variables>
 			</munit:set-event>
 			<try doc:name="Try" doc:id="b7544d11-4338-48d5-86f0-f0032616d6b9" >
@@ -168,15 +171,14 @@ assert_expression_attributes::main({payload: payload, attributes: attributes, va
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
-			<munit:set-event doc:name="Set Input" doc:id="21d94b74-563e-464e-84df-18cf07e23797">
-				<munit:payload value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
-				<munit:attributes value="#[readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_attributes.dwl')]" />
-				<munit:variables>
-					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_variable_.dwl')]" />
-					<munit:variable key="hmac" value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/json" />
-					<munit:variable key="originalPayload" value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_variable_2.dwl')]" encoding="UTF-8" mediaType="application/json" />
-					<munit:variable key="requestParams" value="#[output application/java --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_variable_3.dwl')]" encoding="UTF-8" mediaType="application/java" />
-					<munit:variable key="hmacTimeStamp" value="#[output application/java --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_variable_4.dwl')]" encoding="UTF-8" mediaType="application/java" />
+			<munit:set-event doc:name="Set Input" doc:id="f10f1ed8-e8c6-4b4c-b00d-422167b64773" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://dw/events/post-provision-request.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[output application/json --- readUrl('classpath://dw/events/attr-post-provision.dwl')]" />
+				<munit:variables >
+					<munit:variable key="hmac" value="#[output application/json --- readUrl('classpath://dw/mocks/var-hmac.dwl')]" encoding="UTF-8" mediaType="application/json" />
+					<munit:variable key="originalPayload" value="#[output application/json --- readUrl('classpath://dw/mocks/var-originalPayload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+					<munit:variable key="requestParams" value="#[output application/json --- readUrl('classpath://dw/mocks/var-requestParams.dwl')]" encoding="UTF-8" mediaType="application/java" />
+					<munit:variable key="hmacTimeStamp" value="#[output application/json --- readUrl('classpath://dw/mocks/var-hmacTimeStamp.dwl')]" encoding="UTF-8" mediaType="application/java" />
 				</munit:variables>
 			</munit:set-event>
 			<try doc:name="Try" doc:id="6e702a66-1441-4e6a-9451-011046e32150" >
@@ -210,15 +212,14 @@ assert_expression_attributes::main({payload: payload, attributes: attributes, va
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
-			<munit:set-event doc:name="Set Input" doc:id="02ffd7ec-0013-4d1a-9b58-f9f248722aa7">
-				<munit:payload value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
-				<munit:attributes value="#[readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_attributes.dwl')]" />
-				<munit:variables>
-					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_variable_.dwl')]" />
-					<munit:variable key="hmac" value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/json" />
-					<munit:variable key="originalPayload" value="#[output application/json --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_variable_2.dwl')]" encoding="UTF-8" mediaType="application/json" />
-					<munit:variable key="requestParams" value="#[output application/java --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_variable_3.dwl')]" encoding="UTF-8" mediaType="application/java" />
-					<munit:variable key="hmacTimeStamp" value="#[output application/java --- readUrl('classpath://httpfacebookpostcarrierphonestatusflowunsuccessfulfberrortest\set-event_variable_4.dwl')]" encoding="UTF-8" mediaType="application/java" />
+			<munit:set-event doc:name="Set Input" doc:id="d27ca51e-3052-499c-a2ce-21c5fcb5f7db" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://dw/events/post-provision-request.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[output application/json --- readUrl('classpath://dw/events/attr-post-provision.dwl')]" />
+				<munit:variables >
+					<munit:variable key="hmac" value="#[output application/json --- readUrl('classpath://dw/mocks/var-hmac.dwl')]" encoding="UTF-8" mediaType="application/json" />
+					<munit:variable key="originalPayload" value="#[output application/json --- readUrl('classpath://dw/mocks/var-originalPayload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+					<munit:variable key="requestParams" value="#[output application/json --- readUrl('classpath://dw/mocks/var-requestParams.dwl')]" encoding="UTF-8" mediaType="application/java" />
+					<munit:variable key="hmacTimeStamp" value="#[output application/json --- readUrl('classpath://dw/mocks/var-hmacTimeStamp.dwl')]" encoding="UTF-8" mediaType="application/java" />
 				</munit:variables>
 			</munit:set-event>
 			<try doc:name="Try" doc:id="9115c5e3-6044-45a8-8003-c4961658278e" >

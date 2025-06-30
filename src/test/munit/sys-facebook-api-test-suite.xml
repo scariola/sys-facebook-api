@@ -11,19 +11,12 @@ http://www.mulesoft.org/schema/mule/tracing http://www.mulesoft.org/schema/mule/
 	<munit:config name="sys-facebook-api-test-suite.xml" />
 	<munit:test name="post:\provision:application\json:sys-facebook-api-config-success-test" doc:id="363c1832-7549-4b95-8d34-c7256033f64d" >
 		<munit:behavior >
-			<munit-tools:mock-when doc:name="Mock Flow ref to impl-facebook-provisioning-process-subflow" doc:id="5e269149-a185-4113-85a6-018a6f74c7a8" processor="flow-ref">
+			<munit-tools:mock-when doc:name="mock imp-post-provision-subflow" doc:id="707b9d5a-545a-4824-9304-aa71d791474b" processor="flow-ref">
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="bd5ec399-5500-413c-a050-659a715eadb8" attributeName="doc:id" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return >
 					<munit-tools:payload value="#[output application/json --- readUrl('classpath://dw/mocks/post-provision-response.dwl')]" mediaType="application/json" encoding="UTF-8" />
-					<munit-tools:attributes value="#[readUrl('classpath://dw/mocks/attr-headers.dwl')]" />
-					<munit-tools:variables >
-						<munit-tools:variable key="hmac" value="output application/json --- readUrl('classpath://dw/mocks/var-hmac.dwl')" mediaType="application/json" encoding="UTF-8" />
-						<munit-tools:variable key="originalPayload" value="output application/json --- readUrl('classpath://dw/mocks/var-originalPayload.dwl')" mediaType="application/json" encoding="UTF-8" />
-						<munit-tools:variable key="requestParams" value="output application/json --- readUrl('classpath://dw/mocks/var-requetParams.dwl')" mediaType="application/java" encoding="UTF-8" />
-						<munit-tools:variable key="hmacTimeStamp" value="output application/json --- readUrl('classpath://dw/mocks/var-hmacTimeStamp.dwl')" mediaType="application/java" encoding="UTF-8" />
-					</munit-tools:variables>
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>

@@ -1,5 +1,7 @@
-{  
-  "x-event-id": "123",	
-  "x-event-code": 1005,
-  "x-event-msg": "Provisioning successful"
+{
+  "msisdn": "639171234567",
+  "provision": {
+    "fb-product-id": "2536",
+    "expiration": 1718784000
+  }
 }
