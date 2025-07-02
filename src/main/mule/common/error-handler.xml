@@ -91,7 +91,7 @@ output application/json
 ---
 {
   "x-event-id":	correlationId,		
-  "x-event-code": 9010,
+  "x-event-code": 9409,
   "x-event-msg": "Provision Unsuccessful.",
   "result":{
   	"error-type": error.errorType.namespace ++ ":" ++ error.errorType.identifier,
@@ -117,7 +117,7 @@ output application/json
 ---
 {
   "x-event-id":	correlationId,		 
-  "x-event-code": 9010,
+  "x-event-code": 9402,
   "x-event-msg": "Bad Request - Invalid Parameter or Request",
   "result":{
   	"error-type": error.errorType.namespace ++ ":" ++ error.errorType.identifier,
@@ -144,7 +144,7 @@ output application/json
 ---
 {
  "x-event-id":	correlationId,		
-  "x-event-code": 9010,
+  "x-event-code": 9401,
   "x-event-msg": "Facebook API unreachable",
   "result":{
   	"error-type": error.errorType.namespace ++ ":" ++ error.errorType.identifier,

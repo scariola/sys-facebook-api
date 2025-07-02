@@ -21,7 +21,7 @@ http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/jav
 		<java:invoke-static doc:name="vars.hmacTimeStamp"
 			doc:id="4d7a5934-875b-40d3-a73e-6e3fe5944d66"
 			class="com.facebookTimestamp.utils.TimestampUtils"
-			method="generateHmacTimestamp()" target="hmacTimeStamp" />
+			method="generateHmacTimestamp()" target="hmacTimeStamp"/>
 		<ee:transform doc:name="Payload to Facebook Request" doc:id="8299711e-a255-45f5-8589-fca4acf7ddf6" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
