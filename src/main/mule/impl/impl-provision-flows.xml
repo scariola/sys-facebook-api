@@ -18,45 +18,43 @@ http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/jav
 			doc:name="START - Process Provision Request"
 			doc:id="e4c0b6d0-080f-4f86-a704-fe912ca9ab34"
 			message="START - Process Provision Request " />
-		<java:invoke-static doc:name="vars.hmacTimeStamp"
-			doc:id="4d7a5934-875b-40d3-a73e-6e3fe5944d66"
-			class="com.facebookTimestamp.utils.TimestampUtils"
-			method="generateHmacTimestamp()" target="hmacTimeStamp"/>
-		<ee:transform doc:name="Payload to Facebook Request" doc:id="8299711e-a255-45f5-8589-fca4acf7ddf6" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+		<ee:transform doc:name="Payload to Facebook Request"
+			doc:id="8299711e-a255-45f5-8589-fca4acf7ddf6">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
 import dw::Crypto
+import java!com::facebookTimestamp::utils::TimestampUtils
 output application/json
-
-var dt = payload
-var timestamp = vars.hmacTimeStamp
-var carrierId = p('facebook.carrier.id')
-var secretKey = p('facebook.secret.key')
-var concatData = timestamp ++ carrierId
-var hmacValue = Crypto::HMACWith(secretKey as Binary, concatData as Binary, "HmacSHA256")
-
 ---
 {
   requestPayload: {
-    msisdn: dt.msisdn,
-    timestamp: timestamp,
+    msisdn: payload.msisdn,
+    timestamp: TimestampUtils::generateHmacTimestamp(), 
     provision: {
-      fb_product_id: dt.provision.'fb-product-id',
-      expiration: dt.provision.expiration
+      fb_product_id: payload.provision.'fb-product-id',
+      expiration: (
+        payload.provision."expiry-date" 
+        as LocalDateTime { format: "yyyy-MM-dd HH:mm:ss" } 
+        as DateTime 
+        as Number
+      )
     }
   },
   requestParams: {
     data_type: "provision",
-    timestamp: timestamp,
-    carrier_id: carrierId,
-    hmac: hmacValue
+    timestamp: TimestampUtils::generateHmacTimestamp(),
+    carrier_id: p('facebook.carrier.id'),
+    hmac: Crypto::HMACWith(
+      p('facebook.secret.key') as Binary,
+      (TimestampUtils::generateHmacTimestamp() ++ p('facebook.carrier.id')) as Binary, 
+      "HmacSHA256"
+    )
   }
 }
 ]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<flow-ref
-			doc:name="facebook-provision-flow"
+		<flow-ref doc:name="facebook-provision-flow"
 			doc:id="f1255e39-e0c6-4cde-81dc-1660ee567ca5"
 			name="facebook-provision-flow" />
 		<logger level="INFO" doc:name="END - Process Provision Request"
