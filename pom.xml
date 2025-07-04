@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>19504067-e1e3-45dd-943a-e163098ddbed</groupId>
+	<groupId>871a7b19-9f3e-4dbd-8ef4-09253a8ba1dc</groupId>
 	<artifactId>sys-facebook-api-ap</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<packaging>mule-application</packaging>
 
 	<name>sys-facebook-api</name>
@@ -17,7 +17,7 @@
 		<mule.maven.plugin.version>4.4.0</mule.maven.plugin.version>
 		<munit.version>3.4.0</munit.version>
 
-		<environment>Dev</environment>
+		<environment>dev</environment>
 		<targetName>Cloudhub-US-East-2</targetName>
 		<muleVersion>4.9.6</muleVersion>
 		<appName>sys-facebook-api</appName>
@@ -44,18 +44,17 @@
 						<muleVersion>${muleVersion}</muleVersion>
 						<server>deployer-spectre</server>
 						<deploymentTimeout>1200000</deploymentTimeout>
-						<applicationName>${project.artifactId}</applicationName>
+						<applicationName>sys-facebook-api-${env}</applicationName>
 						<replicas>1</replicas>
 						<vCores>0.1</vCores>
 						<properties>
 							<http.port>8081</http.port>
 						</properties>
 						<secureProperties>
-							<https.port>8082</https.port>
-							<anypoint.platform.client_id>b675ef2374e3434a834d659cfafb8d08</anypoint.platform.client_id>
-							<anypoint.platform.client_secret>E3326437023B4B11B8ECCcD8cA7523Cd</anypoint.platform.client_secret>
-							<env>dev</env>
-							<secure.key>Dev#Key2025@xA1z</secure.key>
+							<anypoint.platform.client_id>${anypoint.platform.client_id}</anypoint.platform.client_id>
+							<anypoint.platform.client_secret>${anypoint.platform.client_secret}</anypoint.platform.client_secret>
+							<env>${env}</env>
+							<secure.key>${secure.key}</secure.key>
 						</secureProperties>
 					</cloudhub2Deployment>
 					<classifier>mule-application</classifier>
