@@ -32,12 +32,13 @@ output application/json
     timestamp: TimestampUtils::generateHmacTimestamp(), 
     provision: {
       fb_product_id: payload.provision.'fb-product-id',
-      expiration: (
-        payload.provision."expiry-date" 
-        as LocalDateTime { format: "yyyy-MM-dd HH:mm:ss" } 
-        as DateTime 
-        as Number
-      )
+      expiration: if (payload.provision."expiry-date" == "1") 
+        1
+      else 
+        (payload.provision."expiry-date" 
+          as LocalDateTime { format: "yyyy-MM-dd HH:mm:ss" } 
+          as DateTime 
+          as Number)
     }
   },
   requestParams: {
@@ -54,9 +55,9 @@ output application/json
 ]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<flow-ref doc:name="facebook-provision-flow"
+		<flow-ref doc:name="http-facebook-post-carrier-phone-status-flow"
 			doc:id="f1255e39-e0c6-4cde-81dc-1660ee567ca5"
-			name="facebook-provision-flow" />
+			name="http-facebook-post-carrier-phone-status-flow" />
 		<logger level="INFO" doc:name="END - Process Provision Request"
 			doc:id="d030a6c4-e526-490c-91aa-478998ad2726"
 			message="END - Process Provision Request " />
