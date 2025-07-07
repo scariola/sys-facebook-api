@@ -15,9 +15,11 @@
 				<ee:message>
 					<ee:set-payload resource="dw/api-bad-request.dwl" />
 				</ee:message>
+				<ee:variables>
+					<ee:set-variable
+						resource="dw/var-httpStatus-400.dwl" variableName="httpStatus" />
+				</ee:variables>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="400"
-				doc:name="Set httpStatus  = 400" />
 		</on-error-propagate>
 
 		<on-error-propagate type="APIKIT:NOT_FOUND">
@@ -25,9 +27,11 @@
 				<ee:message>
 					<ee:set-payload resource="dw/api-not-found.dwl" />
 				</ee:message>
+				<ee:variables>
+					<ee:set-variable
+						resource="dw/var-httpStatus-404.dwl" variableName="httpStatus" />
+				</ee:variables>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="404"
-				doc:name="Set httpStatus  = 404" />
 		</on-error-propagate>
 
 		<on-error-propagate
@@ -38,9 +42,11 @@
 					<ee:set-payload
 						resource="dw/api-method-not-allowed.dwl" />
 				</ee:message>
+				<ee:variables>
+					<ee:set-variable
+						resource="dw/var-httpStatus-405.dwl" variableName="httpStatus" />
+				</ee:variables>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="405"
-				doc:name="Set httpStatus  = 405" />
 		</on-error-propagate>
 
 		<on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
@@ -48,9 +54,11 @@
 				<ee:message>
 					<ee:set-payload resource="dw/api-not-acceptable.dwl" />
 				</ee:message>
+				<ee:variables>
+					<ee:set-variable
+						resource="dw/var-httpStatus-406.dwl" variableName="httpStatus" />
+				</ee:variables>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="406"
-				doc:name="Set httpStatus  = 406" />
 		</on-error-propagate>
 
 		<on-error-propagate
@@ -61,9 +69,11 @@
 					<ee:set-payload
 						resource="dw/api-unsupported-media-type.dwl" />
 				</ee:message>
+				<ee:variables>
+					<ee:set-variable
+						resource="dw/var-httpStatus-415.dwl" variableName="httpStatus" />
+				</ee:variables>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="415"
-				doc:name="Set httpStatus  = 415" />
 		</on-error-propagate>
 
 		<on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
@@ -72,13 +82,16 @@
 					<ee:set-payload
 						resource="dw/api-not-implemented.dwl" />
 				</ee:message>
+				<ee:variables>
+					<ee:set-variable
+						resource="dw/var-httpStatus-501.dwl" variableName="httpStatus" />
+				</ee:variables>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="501"
-				doc:name="Set httpStatus  = 501" />
 		</on-error-propagate>
 
 	</error-handler>
-	<error-handler name="sys-facebook-api_Shared_Error_Handler">
+	<error-handler
+		name="sys-facebook-api_Shared_Error_Handler">
 		<on-error-propagate enableNotifications="true"
 			logException="true" doc:name="On Error Propagate"
 			doc:id="b58c1503-01d6-49e4-acf1-24884147bc83" type="FACEBOOK:ERROR">
@@ -86,25 +99,12 @@
 				doc:name="Set Payload - Provision Unsuccessful"
 				doc:id="46ea9d43-8bcf-40c5-b459-6866f7abe0ec">
 				<ee:message>
-					<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  "x-event-id":	correlationId,		
-  "x-event-code": 9409,
-  "x-event-msg": "Provision Unsuccessful.",
-  "result":{
-  	"error-type": error.errorType.namespace ++ ":" ++ error.errorType.identifier,
-    "error-description": error.detailedDescription
-  }
-}]]></ee:set-payload>
+					<ee:set-payload resource="dw/api-unsuccessful-response.dwl" />
 				</ee:message>
+				<ee:variables>
+					<ee:set-variable variableName="httpStatus"><![CDATA[error.errorMessage.attributes.statusCode default 500]]></ee:set-variable>
+				</ee:variables>
 			</ee:transform>
-			<set-variable
-				value="#[error.errorMessage.attributes.statusCode default 500]"
-				doc:name="Set httpStatus = statusCode"
-				doc:id="82018c03-defc-4bb9-8f66-eea6b794582c"
-				variableName="httpStatus" />
 		</on-error-propagate>
 		<on-error-propagate enableNotifications="true"
 			logException="true" doc:name="On Error Propagate"
@@ -112,24 +112,14 @@ output application/json
 			<ee:transform doc:name="Set Payload - HTTP  Bad Request"
 				doc:id="d532fdee-cabd-48e1-a840-0e6ccbfbbb82">
 				<ee:message>
-					<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  "x-event-id":	correlationId,		 
-  "x-event-code": 9402,
-  "x-event-msg": "Bad Request - Invalid Parameter or Request",
-  "result":{
-  	"error-type": error.errorType.namespace ++ ":" ++ error.errorType.identifier,
-    "error-description": error.detailedDescription
-  }
-}]]></ee:set-payload>
+					<ee:set-payload
+						resource="dw/http-badrequest-response.dwl" />
 				</ee:message>
+				<ee:variables>
+					<ee:set-variable
+						resource="dw/var-httpStatus-400.dwl" variableName="httpStatus" />
+				</ee:variables>
 			</ee:transform>
-			<set-variable value="400"
-				doc:name="Set httpStatus = 400"
-				doc:id="93d2f0b2-0a83-4ac5-ba8b-ad2bb4c479fd"
-				variableName="httpStatus" />
 		</on-error-propagate>
 		<on-error-propagate enableNotifications="true"
 			logException="true" doc:name="On Error Propagate"
@@ -139,32 +129,25 @@ output application/json
 				doc:name="Set Payload - HTTP  Connectivity"
 				doc:id="34e7c17e-1cb8-4e34-bc45-2216302044b6">
 				<ee:message>
-					<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
- "x-event-id":	correlationId,		
-  "x-event-code": 9401,
-  "x-event-msg": "Facebook API unreachable",
-  "result":{
-  	"error-type": error.errorType.namespace ++ ":" ++ error.errorType.identifier,
-    "error-description": error.detailedDescription
-  }
-}]]></ee:set-payload>
+					<ee:set-payload
+						resource="dw/http-connectivity-response.dwl" />
 				</ee:message>
+				<ee:variables>
+					<ee:set-variable resource="dw/var-httpStatus-503.dwl" variableName="httpStatus" />
+				</ee:variables>
 			</ee:transform>
-			<set-variable value="500"
-				doc:name="Set httpStatus = 500"
-				doc:id="580fd996-58ce-4855-9a9a-7481d73ca8c0"
-				variableName="httpStatus" />
 		</on-error-propagate>
-		<on-error-propagate type="ANY" logException="true" enableNotifications="true">
-			<ee:transform doc:name="Set Payload - Any Occured">
+		<on-error-propagate type="ANY" logException="true"
+			enableNotifications="true">
+			<ee:transform doc:name="Set Payload - Any Occured" doc:id="c9bb028e-1af0-417a-ac8f-b31bae472b55">
 				<ee:message>
-					<ee:set-payload resource="dw/unexpected-system-error.dwl" />
+					<ee:set-payload
+						resource="dw/unexpected-system-error.dwl" />
 				</ee:message>
+				<ee:variables >
+					<ee:set-variable resource="dw/var-httpStatus-500.dwl" variableName="httpStatus" />
+				</ee:variables>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="500" doc:name="Set httpStatus  = 500" />
 		</on-error-propagate>
 	</error-handler>
 </mule>

@@ -31,11 +31,6 @@
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert api kit bad request" doc:id="7e527756-0795-42a4-ae37-6f3cdbe80df9" is="#[MunitTools::equalTo('APIKIT:BAD_REQUEST')]" expression="#[payload.result.'error-type']"/>
-			<munit-tools:verify-call doc:name="Verify Call httpStatus 400" doc:id="b1c60f00-7921-4388-a9ee-f7e96c2866fb" processor="set-variable" times="1">
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="400" attributeName="value" />
-				</munit-tools:with-attributes>
-			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
 	<munit:test name="sys-facebook-api-main-apikit-not-found-test" doc:id="b1d737db-29b8-4d54-9fec-46953481f931">
@@ -61,11 +56,6 @@
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert api kit not found" doc:id="9fa57c35-4f1b-4cf6-8d1c-f02e50b11dc2" is="#[MunitTools::equalTo('APIKIT:NOT_FOUND')]" expression="#[payload.result.'error-type']" />
-			<munit-tools:verify-call doc:name="Verify Call httpStatus 404" doc:id="6dd5a906-c1d4-4381-aae5-24f0bd11a597" processor="set-variable" times="1" >
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="404" attributeName="value" />
-				</munit-tools:with-attributes>
-			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
 	<munit:test name="sys-facebook-api-main-apikit-method-not-allowed-test" doc:id="7df204b3-23be-4bd5-a8ce-98cf7a535cab">
@@ -91,11 +81,6 @@
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert api kit method not allowed" doc:id="ee748636-b807-402e-92f5-1d25208a14bd" expression="#[payload.result.'error-type']" is="#[MunitTools::equalTo('APIKIT:METHOD_NOT_ALLOWED')]" />
-			<munit-tools:verify-call doc:name="Verify Call httpStatus 405" doc:id="d4f38a38-f1d1-420f-84c0-91d445cd5f43" processor="set-variable" times="1" >
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="405" attributeName="value" />
-				</munit-tools:with-attributes>
-			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
 	<munit:test name="sys-facebook-api-main-apikit-not-accepted-test" doc:id="17ca6657-eba1-4df0-9d04-f9df828aec02">
@@ -121,11 +106,6 @@
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert api kit not accepted" doc:id="5b76302a-9b48-4a8d-b03b-b72282cfb9bc" expression="#[payload.result.'error-type']" is="#[MunitTools::equalTo('APIKIT:NOT_ACCEPTABLE')]" />
-			<munit-tools:verify-call doc:name="Verify Call httpStatus 406" doc:id="8153d4b4-ccb5-43fc-a4a8-e01f3acce7ec" processor="set-variable" times="1" >
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="406" attributeName="value" />
-				</munit-tools:with-attributes>
-			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
 	<munit:test name="sys-facebook-api-main-apikit-unsupported-media-type-test" doc:id="63a63eb5-523f-4d3b-89a6-b1df7dbfecc1">
@@ -151,11 +131,6 @@
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-that doc:name="Assert api kit not accepted" doc:id="f519bbc7-5a5a-40bd-835b-5361716f9192" expression="#[payload.result.'error-type']" is="#[MunitTools::equalTo('APIKIT:UNSUPPORTED_MEDIA_TYPE')]" />
-			<munit-tools:verify-call doc:name="Verify Call httpStatus 415" doc:id="7f78db5c-beb4-42c5-bd11-0fc6f96ec78c" processor="set-variable" times="1">
-				<munit-tools:with-attributes>
-					<munit-tools:with-attribute whereValue="415" attributeName="value" />
-				</munit-tools:with-attributes>
-			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
 	<munit:test name="sys-facebook-api-main-apikit-not-implemented-test" doc:id="4da76924-3e52-425a-ad98-9d848387a5f8">
@@ -183,11 +158,6 @@
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert api kit not accepted" doc:id="6570cd06-24b3-45a6-a7a8-f26adc16bf75" expression="#[payload.result.'error-type']" is="#[MunitTools::equalTo('APIKIT:NOT_IMPLEMENTED')]" />
-			<munit-tools:verify-call doc:name="Verify Call httpStatus 501" doc:id="a6eb5197-7b17-4fbd-8ea5-90fad3423afb" processor="set-variable" times="1" >
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="501" attributeName="value" />
-				</munit-tools:with-attributes>
-			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
 

@@ -37,15 +37,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 					doc:name="FB API Response TO API response"
 					doc:id="57c44ccf-e6d5-49e7-8351-3a6d259cf28d">
 					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  "x-event-id":	correlationId,		
-  "x-event-code": 1005,
-  "x-event-msg": "Provisioning successful"
-}
-]]></ee:set-payload>
+						<ee:set-payload resource="dw/api-success-response-200.dwl" />
 					</ee:message>
 				</ee:transform>
 			</when>
