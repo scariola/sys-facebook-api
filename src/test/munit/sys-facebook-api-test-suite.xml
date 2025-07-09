@@ -37,7 +37,7 @@ import * from dw::test::Asserts
 payload must equalTo({
   "x-event-id": "123",	
   "x-event-code": 1005,
-  "x-event-msg": "Provisioning successful"
+  "x-event-msg": "Provisioning Successful"
 })]]]></munit-tools:that>
 			</munit-tools:assert>
 			<munit-tools:verify-call doc:name="Verify END - POST/ provision" doc:id="4cdf0d18-5f2f-4019-a852-e8ab7b6786f9" processor="logger" times="1">

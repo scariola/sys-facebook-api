@@ -21,7 +21,7 @@ http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/jav
 		<ee:transform doc:name="Payload to Facebook Request"
 			doc:id="8299711e-a255-45f5-8589-fca4acf7ddf6">
 			<ee:message>
-				<ee:set-payload><![CDATA[%dw 2.0
+				<ee:set-payload ><![CDATA[%dw 2.0
 import dw::Crypto
 import java!com::facebookTimestamp::utils::TimestampUtils
 output application/json
@@ -54,6 +54,14 @@ output application/json
 }
 ]]></ee:set-payload>
 			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="expiry" ><![CDATA[%dw 2.0
+output application/json
+---
+payload.provision.'expiry-date'
+
+]]></ee:set-variable>
+			</ee:variables>
 		</ee:transform>
 		<flow-ref doc:name="http-facebook-post-carrier-phone-status-flow"
 			doc:id="f1255e39-e0c6-4cde-81dc-1660ee567ca5"

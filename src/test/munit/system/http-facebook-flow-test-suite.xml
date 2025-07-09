@@ -50,7 +50,7 @@ import * from dw::test::Asserts
 payload must equalTo({
   "x-event-id": "123",	
   "x-event-code": 1005,
-  "x-event-msg": "Provisioning successful"
+  "x-event-msg": "Provisioning Successful"
 })]]]></munit-tools:that>
 			</munit-tools:assert>
 			<munit-tools:assert doc:name="Assert attributes" doc:id="0b9a08a6-e7f7-4064-8602-a3eb5f9276d9" message="The attributes do not match">
@@ -70,7 +70,7 @@ attributes must [
 			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="http-facebook-post-carrier-phone-status-flow-unsuccessful-fb-error-test" doc:id="7764e629-ae06-483c-931c-21a4fdcf5d8d">
+	<munit:test name="http-facebook-post-carrier-phone-status-flow-unSuccessful-fb-error-test" doc:id="7764e629-ae06-483c-931c-21a4fdcf5d8d">
 		<munit:behavior>
 			<munit-tools:mock-when doc:name="Mock POST/carrier-phone-status" doc:id="28e8a1f4-3769-4ff6-a874-3d54cc521982" processor="http:request" >
 				<munit-tools:with-attributes >
@@ -103,7 +103,7 @@ attributes must [
 				<flow-ref doc:name="http-facebook-post-carrier-phone-status-flow" doc:id="abe855fb-9957-4079-8365-049e8d275db3" name="http-facebook-post-carrier-phone-status-flow" />
 				<error-handler>
 					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="a7ced592-91cc-4a7f-8b99-7a9d69ca20b6">
-						<logger level="INFO" doc:name="Logger" doc:id="b4b25764-5809-4eff-8d65-a9172156f9c9" message="Facebook Provision Unsuccessful" />
+						<logger level="INFO" doc:name="Logger" doc:id="b4b25764-5809-4eff-8d65-a9172156f9c9" message="Facebook Provision UnSuccessful" />
 					</on-error-continue>
 				</error-handler>
 			</try>
@@ -144,7 +144,7 @@ attributes must [
 				<flow-ref doc:name="http-facebook-post-carrier-phone-status-flow" doc:id="24a433e3-cb78-46a8-b20c-7ddc66316e5f" name="http-facebook-post-carrier-phone-status-flow" />
 				<error-handler >
 					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="08ed5b3c-af80-47cf-9128-e1786df8e2ab" >
-						<logger level="INFO" doc:name="Logger" doc:id="0906c032-13bf-4a65-99ae-e389409fb018" message="Facebook Provision Unsuccessful" />
+						<logger level="INFO" doc:name="Logger" doc:id="0906c032-13bf-4a65-99ae-e389409fb018" message="Facebook Provision UnSuccessful" />
 					</on-error-continue>
 				</error-handler>
 			</try>
@@ -185,7 +185,7 @@ attributes must [
 				<flow-ref doc:name="http-facebook-post-carrier-phone-status-flow" doc:id="13ec0b65-8eda-43dc-b7d6-c4c04b268dff" name="http-facebook-post-carrier-phone-status-flow" />
 				<error-handler >
 					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="5dbba01e-0129-40d7-978d-8c893ed2a991" >
-						<logger level="INFO" doc:name="Logger" doc:id="db5a6d91-d46d-47e8-a6ce-86aace867e7d" message="Facebook Provision Unsuccessful" />
+						<logger level="INFO" doc:name="Logger" doc:id="db5a6d91-d46d-47e8-a6ce-86aace867e7d" message="Facebook Provision UnSuccessful" />
 					</on-error-continue>
 				</error-handler>
 			</try>
@@ -228,7 +228,7 @@ attributes must [
 				<flow-ref doc:name="http-facebook-post-carrier-phone-status-subflow" doc:id="0379f528-146c-479d-af25-71a6d053b664" name="http-facebook-post-carrier-phone-status-flow" />
 				<error-handler >
 					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="fde2d03c-35fb-4a19-a69f-d11c229e47db" >
-						<logger level="INFO" doc:name="Logger" doc:id="17e19184-0bb1-4d2e-9d2c-d71a77def9fe" message="Facebook Provision Unsuccessful" />
+						<logger level="INFO" doc:name="Logger" doc:id="17e19184-0bb1-4d2e-9d2c-d71a77def9fe" message="Facebook Provision UnSuccessful" />
 					</on-error-continue>
 				</error-handler>
 			</try>
